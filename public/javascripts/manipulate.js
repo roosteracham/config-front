@@ -77,6 +77,43 @@ $('#groupEle').on('click', function () {
     }
 });
 
+// 取消组合
+$("#unGroup").on('click', unGroupEles);
+
+function unGroupEles() {
+    if (svg !== null || SVG.select('.selected').length() === 1) {
+
+        // 获得组合选中的组合元素
+        let ele = SVG.select('.selected').get(0);
+        clearAllSelected();
+
+        // 得到组合父元素的移动距离
+        let children = ele.children();
+        var r = ele.node.getAttribute('transform'),
+            s = r.split(',');
+        let dx = parseInt(s[s.length - 2]);
+        let dy = parseInt(s[s.length - 1].split(')')[0]);
+        // 取消组合
+        if (hasClass(ele.classes(), 'grouparent')) {
+            ele.ungroup(svg)
+        }
+
+        // 被组合的元素添加响应事件
+        for (let i = 0; i < children.length; i++) {
+            var child = children[i];
+            child.removeClass('groupEle')
+                .addClass('ele')
+                .draggable();
+
+            // 取消组合后， 元素位置移动到当前位置
+            child.attr('transform', null);
+            child.move(child.x() + dx,child.y() + dy);
+        }
+        // 删除组合父元素
+        ele.remove();
+    }
+}
+
 //旋转元素
 function rotate(arc) {
     var del = SVG.select('.selected');
@@ -269,7 +306,8 @@ $('#point').on('click', function () {
         };
 
         ws.onclose = function () {
-            ws.close();
+            if (ws !== null)
+                ws.close();
             console.log("连接已关闭...");
         };
     } else {
@@ -315,7 +353,7 @@ function UpdateLiquidLevel(o, data) {
 
 // 文本变化
 function updateText(o, data) {
-    o.node.firstChild.textContent = data;
+    o.node.innerHTML = data;
 }
 
 // 矩形变化

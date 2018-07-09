@@ -20,7 +20,7 @@ $("#text").on("click", function () {
     if(svg === null) {
         return;
     }
-    var text = svg.text('text');
+    var text = svg.plain('text');
     text.font({
         fill : "black",
         family: 'Inconsolata',
@@ -148,7 +148,7 @@ $('#pipe').on('click', function () {
         stop.at(1, 'gray')
     });
     // 渐变起止区域
-//gradient.from(0,'100%').to('50%', '100%')
+    //gradient.from(0,'100%').to('50%', '100%')
     rect.attr({ fill: gradient });
     myResize(rect);
 });

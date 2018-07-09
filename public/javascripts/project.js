@@ -216,16 +216,93 @@ $('#exportProject').on('click', function () {
     // 导出之前清除选中状态
     clearAllSelected();
 
+    var eles = SVG.select('.ele');
+    /*SVGToJson(eles);*/
     // 需要导出的数据都在 data 里面
     var data = {
         "projectName" : projectName,
         "svgName" : svgName,
-        "svg" : getAllEles()
+        "svg" : JSON.stringify(SVGToJson(eles))
     };
 
     // 上传到服务器
-    ajaxOption(host + urls.exportProject, 'post', data);
+    ajaxOption(host + urls.exportProject, 'post', JSON.stringify(data));
 });
+
+// 将svg字符串转为json
+function SVGToJson(eles) {
+    var json = {};
+    for (let i = 0; i < eles.length(); i++) {
+        let ele = eles.get(i);
+        let attrs = ele.attr();
+        let eleName = ele.node.nodeName.toLocaleLowerCase();
+        var id = eleName + '#' + attrs['id'];
+        let data = {};
+        for (let key in attrs) {
+            data[key] = attrs[key];
+        }
+        if ('text' === eleName) {
+            data['text'] = ele.node.innerHTML;
+        } else if (hasClass(ele.classes(), 'grouparent')) {
+
+            data['children'] = groupedChildrenToJson(ele.children());
+        }
+        json[id] = data;
+    }
+    return json;
+}
+
+// 将json 解析为svg
+function jsonToSVGAsString(json) {
+    let svgString = '';
+    for (let key in json) {
+        let type = key.split('#')[0];
+        svgString += '<' + type + ' ';
+        var value = json[key];
+        let hasTextAttr = false;
+        for (let attr in value) {
+            if ('text' === attr) {
+                hasTextAttr = true;
+                continue;
+            } else if ('children' === attr)
+                continue;
+            svgString += attr + '=' + '\"' + value[attr] + '\" ';
+        }
+        svgString += '>'
+        if (hasTextAttr)
+            svgString += value['text'];
+        else if ('g' === type) {
+            svgString += jsonToSVGAsString(json[key]['children']);
+        }
+        svgString += '</' + type + '>'
+        hasTextAttr = false;
+    }
+    //console.log(svgString);
+    return svgString;
+}
+
+// 将组合中的元素解析成json
+function groupedChildrenToJson(eles) {
+    var json = {};
+    for (let i = 0; i < eles.length; i++) {
+        let ele = eles[i];
+        let attrs = ele.attr();
+        let eleName = ele.node.nodeName.toLocaleLowerCase();
+        var id = eleName + '#' + attrs['id'];
+        let data = {};
+        for (let key in attrs) {
+            data[key] = attrs[key];
+        }
+        if ('text' === eleName) {
+            data['text'] = ele.node.innerHTML;
+        } else if (hasClass(ele.classes(), 'grouparent')) {
+
+            data['children'] = groupedChildrenToJson(ele.children());
+        }
+        json[id] = data;
+    }
+    return json;
+}
 
 // 获得所有图形
 function getAllEles() {
@@ -253,8 +330,8 @@ $('#importProject').on('click', function () {
                 newSVG();
                 svgName = 'default';
             }
-            svg.svg(res['data']);
-            
+            svg.svg(jsonToSVGAsString(JSON.parse(res['data'])));
+
             // 将导入的测点加入测点集合
             addToBindPoints();
         });
@@ -266,7 +343,12 @@ $('#importProject').on('click', function () {
 // 将导入的测点加入测点集合
 function addToBindPoints() {
     // 绑定测点的元素 $("[class^='class_']")
-    var eles = SVG.select('.bp');
+    var eles;
+    try {
+        eles = SVG.select('.bp');
+    } catch (e) {
+        eles = SVG.select('.bp');
+    }
     for (var i = 0; i < eles.length(); i++) {
         var ele = eles.get(i);
 

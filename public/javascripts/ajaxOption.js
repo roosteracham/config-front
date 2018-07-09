@@ -1,9 +1,10 @@
+// 数据 data 为字符串
 function ajaxOption(url, type, data) {
     $.ajax({
        url : url, // 规定发送请求的 URL。默认是当前页面
        async : true, // 布尔值，表示请求是否异步处理。默认是 true
        type : type, // 规定请求的类型（GET 或 POST）
-       data : JSON.stringify(data), // 规定要发送到服务器的数据
+       data : data, // 规定要发送到服务器的数据
        //scriptCharset : 'UTF-8', // 规定请求的字符集
        contentType : 'application/json; charset=utf-8', //发送数据到服务器时所使用的内容类型
        success : successCallback,

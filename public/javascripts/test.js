@@ -134,7 +134,7 @@ function mousedownOnNonEle(e) {
            .move(beginX, beginY)
     } else { // 若点击在图形元素上，则判断是否被选中，未被选中清除其他元素被选中的状态
         var o;
-        if (e.target.nodeName === 'tspan' || isNodeGroupedEle(e.target)) {
+        if (isNodeGroupedEle(e.target)) {
             o = e.target.parentNode.instance;
         } else {
             o = e.target.instance;
@@ -210,7 +210,7 @@ function mouseupOnSVG(e) {
 
     if (isSvgElement(e.target.nodeName) && clearOthers) {
         var o = e.target.instance;
-        if (e.target.nodeName === 'tspan' || isNodeGroupedEle(e.target)) {
+        if (isNodeGroupedEle(e.target)) {
             o = e.target.parentNode.instance;
         }
         selectClicked(o);
@@ -301,8 +301,8 @@ function clickNonEleToClear(e) {
         }
         var o = e.target.instance;
         if (isSVGElementByClass(o) || isSVGElementByClass(e.target.parentNode.instance)) {
-            //clearAllSelected();
-            if (e.target.nodeName === 'tspan' || isNodeGroupedEle(e.target)) {
+
+            if (isNodeGroupedEle(e.target)) {
                 o = e.target.parentNode.instance;
             }
             limiteDragArea(o)
