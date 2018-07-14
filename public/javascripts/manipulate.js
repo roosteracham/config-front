@@ -9,6 +9,44 @@ $("#clearElements").on("click", function () {
     }
 });
 
+// 保存组件, 组件需要被选中
+$('#saveGroup').on('click', function () {
+    if (svg !== null) {
+        var selected = SVG.select('.selected');
+        if (selected.length() === 1) {
+            // 只有一个组合元素被选中
+            var group = selected.get(0);
+            if ('g' !== group.type) {
+                alert('单个元素无需保存！');
+            } else {
+                // 解析为json对象
+                let json = SVGToJson(selected);
+
+                // 传入服务器
+                saveGroupedEle(json);
+
+                // 更新组件列表
+            }
+        } else if (selected.length() === 0) {
+            alert('请选择需要导出的组件！');
+        } else {
+            alert('请选择一个需要导出的组件！');
+        }
+    }
+});
+
+// 保存组件
+function saveGroupedEle(json) {
+
+    var data = {
+        "groupName" : "zujian1",
+        "data" : JSON.stringify(json)
+    };
+
+    // ajax请求
+    ajaxOption(host + urls.saveGroupedEle, 'post', JSON.stringify(data));
+}
+
 // 选中删除元素
 $("#deleteEle").on("click", function () {
     var del = SVG.select('.selected');
@@ -34,6 +72,8 @@ function deleteFromBindPoint(o) {
     for (var j = 0; j < clas.length; j++) {
         var cla = clas[j];
         if (cla === 'grouparent') {
+
+            // 若是组合元素，则对组合中的元素递归调用
             var children = o.children();
             for (var i = 0; i < children.length; i++) {
                 var child = children[i];
@@ -55,9 +95,7 @@ function deleteFromBindPoint(o) {
 //组合元素
 $('#groupEle').on('click', function () {
 
-    var group = svg.group()
-        .addClass('grouparent')
-        .addClass('ele');
+    var group = svg.group();
     var eles = SVG.select('.selected');
     if (eles.length() > 1) {
         for (var i = 0; i < eles.length(); i++) {
@@ -74,6 +112,9 @@ $('#groupEle').on('click', function () {
         group.selectize()
             .resize()
             .draggable();
+        group.addClass('selected')
+            .addClass('grouparent')
+            .addClass('ele');
     }
 });
 
@@ -402,7 +443,7 @@ $('#modifyText').on('click', function () {
 
     var eles = SVG.select('.selected');
     if (eles.length() === 1) {
-        $('#myModalLabel')[0].innerHeight = '修稿文本';
+        $('#myModalLabel')[0].innerHeight = '修改文本';
         id = 'modifyText';
         $('#myModal').modal('show');
     }

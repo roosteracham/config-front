@@ -14,11 +14,11 @@
     <button id="exportProject" >保存工程</button>
     <button id="importProject" >导入工程</button>
     <button id="clearElements" >清空元素</button>
+    <button id="deletesvg" >删除工程</button>
     <button id="deleteEle" >删除元素</button>
     <button id="groupEle" >组合元素</button>
     <button id="unGroup" >取消组合</button>
     <button id="copyEle" >复制元素</button>
-    <button id="saveGroup" >保存组件</button>
     <button id="modifyText" >修改文本</button>
     <button id="rotateLeft_90" >左旋90°</button>
     <button id="rotateRight_90" >右旋90°</button>
@@ -42,7 +42,15 @@
 </div>
 <div class="mycontainer">
 
-    <div class="leftsidebar_box">
+    <button id="but">发送</button>
+    <div id="app" class="leftsidebar_box">
+        <dl class="system_log" v-for="project in projects" :key="project.index">
+            <dt v-once @click="c2">{{project.projectName}}<img ></dt>
+            <dd  class="st" v-for="svg in svgs" :id="svg.id" :key="svg.index"
+                 v-if="svg.projectName == project.projectName" @click="c1">
+                {{ svg.name }}
+            </dd>
+        </dl>
         <dl class="system_log">
             <dt >基本图形<img src="../images/left/select_xl01.png"></dt>
             <dd class="st" id="line">直线</dd>
@@ -73,7 +81,26 @@
             <dd class="st" id="crossConnector">十字型接头</dd>
             <dd class="st" id="pump">泵</dd>
             <dd class="st" id="valve">阀门</dd>
-        </dl>
+        </dl><!--
+        <com-dl v-for="project in projects">
+            {{ project }}
+            <com-dd v-for="(svg, index) in svgs" :key="index" v-if="svg.projectName == project"
+                    :id="svg.id" @click.native="c1">
+                {{ svg.name }}
+            </com-dd>
+        </com-dl>-->
+<!--
+        <com-dl v-for="type in elementType">
+            {{ type }}
+            <com-dd v-for="(ele, index) in elements" :key="index" v-if="ele.type == type"
+                    :id="ele.id" @click.native="c1">
+                {{ ele.name }}
+            </com-dd>
+        </com-dl>-->
+        <!--<com-dl >
+            props.text
+        </com-dl>-->
+
     </div>
 
     <div class="svg-container" id="svgContainer" style="position: relative; left: 15%;
@@ -92,40 +119,27 @@
 <script type="text/javascript" src="../javascripts/svg.resize.js"></script>
 <script type="text/javascript" src="../javascripts/svg.path.js"></script>
 <script type="text/javascript" src="../javascripts/jscolor.js"></script>
-<script type="text/javascript" src="../javascripts/test.js"></script>
+
 <script type="text/javascript" src="../javascripts/ajaxOption.js"></script>
+<script type="text/javascript" src="../javascripts/test.js"></script>
 <script type="text/javascript" src="../javascripts/webSocket.js"></script>
 <script type="text/javascript" src="../javascripts/project.js"></script>
+<script type="text/javascript" src="../javascripts/myvue.js"></script>
 <script type="text/javascript" src="../javascripts/manipulate.js"></script>
 <script type="text/javascript" src="../javascripts/addindustrialEle.js"></script>
-
 <script>
-
-    var comDD = {
-        template : '<dd class=""><slot></slot></dd>',
-    };
-
-    var comDL = {
-        template: '<dl id="dlId" ><dt v-once><slot></slot></dt>' +
-        '</dl>'
-    };
-
-    var vm = new Vue({
-        el : '',
-        data : {
-            projects : [],
-            svgs : [
-               /* {projectName : '工程1', name : '画面1'},
-                {projectName : '工程1', name : '画面2'},
-                {projectName : '工程2', name : '画面3'},*/
-            ]
-        },
-        components : {
-            'com-dd' : comDD,
-            'com-dl' : comDL
-        }
-    })
-
+    $('#but').click(function () {
+        var data = {
+            types : [ projectOption.elements]
+        };
+        ajaxOption(host + urls.getProjects,
+            'post',
+            JSON.stringify(data), function (res) {
+            console.log(JSON.stringify(res['data']))
+        } , function (res) {
+                console.log(JSON.stringify(res['data']))
+            })
+    });
 </script>
 <!-- 模态框（Modal） 新建工程时弹出 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -5,4 +5,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('config');
 });
+
+router.get('/index', function(req, res, next) {
+    res.render('config');
+});
 module.exports = router;

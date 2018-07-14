@@ -10,7 +10,4 @@ router.get('/test', function(req, res, next) {
     res.render('test');
 });
 
-router.get('/index', function(req, res, next) {
-    res.render('config');
-});
 module.exports = router;

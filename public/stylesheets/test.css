@@ -68,7 +68,7 @@ a {
     top:20px;
 }
 .system_log dt {
-    background-image:url(../images/left/system.png)
+    /*background-image:url(../images/left/system.png)*/
 }
 
 .custom dt {

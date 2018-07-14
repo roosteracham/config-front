@@ -4,19 +4,31 @@ $(".leftsidebar_box dt img").attr("src","../images/left/select_xl01.png");
 
 // 页面加载完之后才被调用
 $(function(){
-    $(".leftsidebar_box dd").hide();
 
-    $(".leftsidebar_box dt").click(function(){
-        $(".leftsidebar_box dt").css({"background-color":"#3992d0"})
-        $(this).css({"background-color": "#317eb4"});
-        $(this).parent().find('dd').removeClass("menu_chioce");
-        $(".leftsidebar_box dt img").attr("src","../images/left/select_xl01.png");
-        $(this).parent().find('img').attr("src","../images/left/select_xl.png");
-        $(".menu_chioce").slideUp();
-        $(this).parent().find('dd').slideToggle();
-        $(this).parent().find('dd').addClass("menu_chioce");
-    });
+    $(".system_log dd").hide();
+
+    $(".system_log dt").on('click', clickToggle);
+
+    newSVG();
 });
+
+function clickToggle(e){
+    // 原生点击事件的this和vue组件点击事件的this指示不一样的实例。
+    // vue中的this指代vue实例
+    // 原生的 this 指代被点击对象本身
+    if (e.type === 'click') {
+        e = $(this);
+    }
+
+    $(".leftsidebar_box dt").css({"background-color":"#3992d0"})
+    e.css({"background-color": "#317eb4"});
+    e.parent().find('dd').removeClass("menu_chioce");
+    $(".leftsidebar_box dt img").attr("src","../images/left/select_xl01.png");
+    e.parent().find('img').attr("src","../images/left/select_xl.png");
+    $(".menu_chioce").slideUp();
+    e.parent().find('dd').slideToggle();
+    e.parent().find('dd').addClass("menu_chioce");
+}
 
 // 当前svg根元素
 var svg = null;
@@ -265,7 +277,7 @@ function clearAllSelected() {
     // 获取svg孩子元素，孩子节点.node才是
     //var c = svg.children();
     // 使用SVG选择器选择所有图形， svg的子节点中的图形具有ele class
-    var c = SVG.select('.ele')
+    var c = SVG.select('.selected')
 
     //判断孩子节点是否是图形元素，如果是去除选中
     for (var i = 0; i < c.length(); i++) {
@@ -374,4 +386,9 @@ function mouseupOnEle(o) {
 // 点击选中
 function selectClickedEle(o) {
     o.click(selectClicked(o));
+}
+
+// 唯一id  五位
+function uuid() {
+    return Number(Math.random().toString().substr(2, 5));
 }

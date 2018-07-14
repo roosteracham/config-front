@@ -33,7 +33,7 @@ $(function () {
                 val = '工程画面';
                 break;
             case eventTarget.modifyText : // 新建画面
-                val = SVG.select('.selected').get(0).node.firstChild.innerHTML;
+                val = SVG.select('.selected').get(0).node.innerHTML;
                 break;
         }
 
@@ -69,13 +69,38 @@ $(function () {
             var name = $('#newInput').val(); //this.childNodes[1].childNodes[1].childNodes[3].childNodes[0].value;
             if (id === 'newProject') {  // 新建工程
                 projectName = name;
-                clearAllSelected();
-                svg = null;
+                // 更新工程列表
+                if (!containsObject(vm.projects, projectName)) {
+
+                    var project = {
+                        index : vm.projects.length,
+                        projectName : projectName
+                    };
+                    vm.projects.push(project);
+                }
+                //svg = null;
             } else if (id === 'newSvg') { // 新建画面
-                    svgName = name;
-                    newSVG();
-            } else if (id === 'modifyText') {
-                SVG.select('.selected').get(0).node.firstChild.innerHTML = name;
+                svgName = name;
+                svgIndex = vm.svgs.length;
+                    if (!isSvgExistsInCollection(svgName, projectName)) {
+                        // 清空画面
+                        if (svg !== null) {
+                            svg.clear();
+                            //svg = null;
+                        }
+                        var data = {
+                            projectName : projectName,
+                            name : svgName,
+                            id : 'svg-' + projectName + '-' + svgName + '-' + svgIndex,
+                            index : svgIndex
+                        };
+                        vm.svgs.push(data);
+                    } else {
+                        alert('工程画面已经存在！');
+                    }
+                    //newSVG();
+            } else if (id === 'modifyText') { // 修改文本
+                SVG.select('.selected').get(0).node.innerHTML = name;
             }
         }
         isConfirmNew = false;
@@ -104,12 +129,6 @@ $(function () {
 
         if (type !== null && pointName !== null && desc !== null &&
             type !== '' && pointName !== '' && desc !== '') {
-
-            /*var point = {
-                pointName : pointName,
-                type : type,
-                value : -1
-            };*/
 
             // 绑定测点
             desc += ' ' + type;
@@ -169,8 +188,38 @@ var svgName = null;
 // 判断时新建工程还是新建画面
 var id = null;
 
+// 画面索引
+var svgIndex = null;
+
+// 获得工程在集合中的索引
+function getProjectIndex(project) {
+    if (project === null || typeof project === undefined)
+        project = projectName;
+
+    var projects = vm.projects;
+    for (let i = 0; i < projects.length; i++) {
+        if (project === projects[i]['projectName'])
+            return projects[i]['index'];
+    }
+    return -1;
+}
+
+// 画面是否存在
+function isSvgExistsInCollection(name, pName) {
+    var svgs = vm.svgs;
+    for (let i = 0; i < svgs.length; i++) {
+        if (name === svgs[i]['name'] && pName === svgs[i]['projectName']) {
+            return true;
+        }
+    }
+
+    return false;
+}
 // 新建工程
 $("#newProject").on("click", function (e) {
+
+    // 去除所有选中效果
+    clearAllSelected();
 
     // id 被点击按钮的id
     id = e.target.id;
@@ -180,6 +229,9 @@ $("#newProject").on("click", function (e) {
 
     // 显示模态框
     $('#myModal').modal('show');
+
+    // 在画面元素添加此工程
+
 });
 
 // 新建画面
@@ -188,6 +240,8 @@ $("#newSvg").on("click", function (e) {
     // id 被点击按钮的id
     id = e.target.id;
 
+    // 去除所有选中效果
+    clearAllSelected();
     // 模态框标题栏
     $('#myModalLabel')[0].innerText = '输入画面名称';
 
@@ -202,34 +256,82 @@ $("#newSvg").on("click", function (e) {
 // 清除工程
 $("#deletesvg").on("click", function () {
     svg.clear();
-    svg = null;
-    $("#svgContainer svg").remove();
+    //svg = null;
+    //$("#svgContainer svg").remove();
     svgName = null;
     bindPoints = {};
 });
+
+// 更新工程列表和画面列表
+function updateColletion() {
+    var data = {
+        projectName : projectName,
+        name : svgName,
+        projectIndex : getProjectIndex(projectName),
+        svgIndex : svgIndex
+    };
+
+    ajaxOption(host + urls.addProject,
+        'post',
+        JSON.stringify(data),
+        function (res) {
+            if (res['success']) {
+                // 更新本地
+                /*if (!containsObject(vm.projects, projectName))
+                    vm.projects.push(projectName);
+                vm.svgs.push(data);*/
+                console.log(res['success']);
+            }
+        }, function (err) {
+            console.log(err);
+        }
+        );
+}
+
+// 数组中是否包含某元素
+function containsObject(array, o) {
+    for (let i = 0; i < array.length; i++) {
+        if (o === array[i]['projectName'])
+            return true;
+    }
+    return false;
+}
 
 // 保存工程 提交给服务器
 $('#exportProject').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
+
+    // 更新工程列表和画面列表
+    updateColletion();
+
     // 导出之前清除选中状态
     clearAllSelected();
 
     var eles = SVG.select('.ele');
     /*SVGToJson(eles);*/
-    // 需要导出的数据都在 data 里面
+
+    // 需要导出的数据都在 data 里面，存入redis里面的数据格式为： projectName_svgName : svg
     var data = {
-        "projectName" : projectName,
-        "svgName" : svgName,
-        "svg" : JSON.stringify(SVGToJson(eles))
+        projectName : projectName,
+        svgName : svgName,
+        index : svgIndex,
+        svg : JSON.stringify(SVGToJson(eles))
     };
 
     // 上传到服务器
-    ajaxOption(host + urls.exportProject, 'post', JSON.stringify(data));
+    ajaxOption(host + urls.exportProject, 
+        'post', 
+        JSON.stringify(data),
+        function (res) {
+            console.log(res['success']);
+        }, function (res) {
+            console.log(res['success']);
+        });
 });
 
-// 将svg字符串转为json
+// 将svg字符串转为json对象
 function SVGToJson(eles) {
     var json = {};
     for (let i = 0; i < eles.length(); i++) {
@@ -245,6 +347,8 @@ function SVGToJson(eles) {
             data['text'] = ele.node.innerHTML;
         } else if (hasClass(ele.classes(), 'grouparent')) {
 
+            // 如果是组合元素， 则调用groupedChildrenToJson
+            // 将被组合元素转为json对象并作为children的值
             data['children'] = groupedChildrenToJson(ele.children());
         }
         json[id] = data;
@@ -252,36 +356,56 @@ function SVGToJson(eles) {
     return json;
 }
 
-// 将json 解析为svg
+// 记录有gradient修饰的图形
+var gradientId = [];
+
+// 将json对象拼接为svg字符串
 function jsonToSVGAsString(json) {
     let svgString = '';
+
+    // 遍历json对象
     for (let key in json) {
         let type = key.split('#')[0];
         svgString += '<' + type + ' ';
         var value = json[key];
+
+        // 是否是文本元素， true的话添加元素的innerHTML为text对应的值
         let hasTextAttr = false;
         for (let attr in value) {
             if ('text' === attr) {
+
+                // text 不是属性， 标识文本元素
                 hasTextAttr = true;
                 continue;
             } else if ('children' === attr)
+
+                // children不是属性，标识组合元素
                 continue;
+            else if ('fill' === attr) {
+                let fill = value[attr];
+
+                // 记录有渐变效果元素的id，之后单独渲染
+                if (fill.indexOf('url') > -1) {
+                    gradientId[gradientId.length] = value['id'];
+                }
+            }
             svgString += attr + '=' + '\"' + value[attr] + '\" ';
         }
-        svgString += '>'
+
+        svgString += '>';
         if (hasTextAttr)
             svgString += value['text'];
         else if ('g' === type) {
             svgString += jsonToSVGAsString(json[key]['children']);
         }
-        svgString += '</' + type + '>'
+        svgString += '</' + type + '>';
         hasTextAttr = false;
     }
-    //console.log(svgString);
+
     return svgString;
 }
 
-// 将组合中的元素解析成json
+// 将组合中的各元素解析成json
 function groupedChildrenToJson(eles) {
     var json = {};
     for (let i = 0; i < eles.length; i++) {
@@ -327,19 +451,35 @@ $('#importProject').on('click', function () {
         $.post(host + urls.importProject, JSON.stringify(data), function (res) {
 
             if (svg === null) {
-                newSVG();
+                //newSVG();
                 svgName = 'default';
             }
-            svg.svg(jsonToSVGAsString(JSON.parse(res['data'])));
 
-            // 将导入的测点加入测点集合
-            addToBindPoints();
+            generateSVG(res);
         });
     } else {
         alert('工程未建立，无法导入');
     }
 });
 
+// 生成svg
+function generateSVG(res) {
+
+    svg.svg(jsonToSVGAsString(JSON.parse(res['data'])));
+
+    // 将导入的测点加入测点集合
+    addToBindPoints();
+
+    // 如果gradient 则加入
+    for (let i = 0; i < gradientId.length; i++) {
+        var id = gradientId[i];
+        var ele = SVG.select('#' + id);
+        if (ele.length() === 1) {
+            ele.get(0).fill(getGradient());
+        }
+    }
+    gradientId = [];
+}
 // 将导入的测点加入测点集合
 function addToBindPoints() {
     // 绑定测点的元素 $("[class^='class_']")
@@ -406,4 +546,5 @@ function newSVG() {
 
         // 放到localstorage 里面
         //loc
+    return svg;
 }
