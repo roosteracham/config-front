@@ -493,7 +493,6 @@ function generateSVG(data) {
 
 // 将导入的测点加入测点集合
 function addToBindPoints() {
-
     // 如果没有下面函数的调用则会在执行SVG.select('.bp');的时候出错，具体原因不详
     getAllEles();
     // 绑定测点的元素 $("[class^='class_']")
@@ -515,6 +514,15 @@ function addToBindPoints() {
                 bindPoints[pointName] = pointName;
             }
         }
+    }
+
+    if (ws !== null && ws.readyState === 1) {
+
+        var data = '';
+        for (var key in bindPoints) {
+            data += key + ',';
+        }
+        ws.send(data);
     }
 }
 
