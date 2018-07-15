@@ -312,9 +312,6 @@ $('#point').on('click', function () {
             ws = createNewWS(url);
         }
 
-        // ws.send("发送数据");
-        //var ele = eles.get(0);
-        //console.log(ele.data('pointName'), ele.data('type') , ele.data('value'))
         ws.onopen = function () {
             // 发送所有测点
             ws.send(data);

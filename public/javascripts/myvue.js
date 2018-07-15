@@ -10,6 +10,7 @@ $(function () {
    // 请求工程
     ajaxOption(host + urls.getProjects, 'post', '',
         function (res) {
+        localStorage.clear();
             var projects = JSON.parse(res['data']);
 
             for (let key in projects) {
@@ -44,7 +45,7 @@ $(function () {
                 }
             }
             getSvg(urls.importProject);
-            console.log('suc', res['data']);
+            //console.log('suc', res['data']);
         },
         function () {
             console.log('error');
@@ -59,13 +60,11 @@ function getSvg(uri) {
         svg: "",
         index: svgIndex
     };
-    if (svg !== null) {
-        svg.clear();
-    }
+
     ajaxOption(host + uri, 'post',
         JSON.stringify(data), function (res) {
             if (res['success']) {
-                generateSVG(res);
+                generateSVG(JSON.parse(res['data']));
             } else {
                 console.log('请求成功，返回错误')
             }
@@ -100,15 +99,25 @@ var vm = new Vue({
         c1 : function (e) {
             var id = e.target.id;
             if (id.indexOf('svg') > -1 || id.indexOf('group') > -1) {
-                console.log('c1 in methods');
+                //console.log('c1 in methods');
                 var attrs = id.split('-');
+                projectName = attrs[1];
+                svgName = attrs[2];
+                var index = attrs[3];
                 var uri;
-                if ('svg' === attrs[0] && svgIndex !== attrs[3]) {
-                    uri = urls.importProject;
-                    projectName = attrs[1];
-                    svgName = attrs[2];
-                    svgIndex = attrs[3];
-                    getSvg(uri);
+                if ('svg' === attrs[0] && svgIndex !== index) {
+
+                    svgIndex = index;
+                    let item = localStorage.getItem(id);
+                    //尝试从localStorage获取， 没有则从服务器获取
+                    if (typeof item !== "undefined" && item !== '' && null !== item) {
+                        generateSVG(JSON.parse(item));
+                    } else {
+                        uri = urls.importProject;
+
+                        // 从服务器获取，同时存入localStorage
+                        getSvg(uri);
+                    }
                 } else
                     // 获取组件的接口
                     uri = urls.importProject;

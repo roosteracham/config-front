@@ -174,6 +174,17 @@ function deleteRectMousemove() {
     }
 }
 
+// 获取所有元素
+function getAllEles() {
+    var eles;
+    try {
+        eles = SVG.select('.ele');
+    } catch (e) {
+        eles = getAllEles();
+    }
+    return eles;
+}
+
 // 鼠标弹起处理事件
 function mouseupOnSVG(e) {
 
@@ -182,7 +193,7 @@ function mouseupOnSVG(e) {
         if (rectOnMousemove !== null){
 
             // 判断矩形中包含的图形，在其中则被选中
-            var eles = SVG.select('.ele');
+            var eles = getAllEles();
             for (var i = 0; i < eles.length(); i++) {
 
                 var ele = eles.get(i);
@@ -281,22 +292,6 @@ function clearAllSelected() {
 
     //判断孩子节点是否是图形元素，如果是去除选中
     for (var i = 0; i < c.length(); i++) {
-        //console.log("sad" + children[0])
-        /*var child = c[i];
-        if (isSvgElement(child.node.nodeName)) { // child 是SVG实例，child.node 是dom实例
-            child.selectize(false)               // 使用child.node.instance 返回SVG实例
-                .resize('stop');
-            child.removeClass('selected');
-        } else if (child.children.length !== 0) {
-            var c = child.children;
-            for (var j = 0; j < c.length; j++) {
-                if (isSvgElement(c[j].nodeName)) {
-                    c[j].selectize(false)
-                        .resize('stop');
-                    child.removeClass('selected');
-                }
-            }
-        }*/
         var o = c.get(i);
         o.selectize(false)
             .resize('stop');

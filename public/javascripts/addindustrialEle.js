@@ -221,12 +221,10 @@ $('#pump').on('click', function (e) {
        return;
    }
 
-   /*var pump = '<g id="SvgjsG12095" class="grouparent ele" x="100" y="100" transform="matrix(1,0,0,1,124,4)"><rect id="SvgjsRect9715" width="47" height="23" fill="#9a98ab" x="244" y="305" class="groupEle"></rect><circle id="SvgjsCircle8799" r="30.25" cx="249.25" cy="335.25" fill="#9a98ab" class="groupEle"></circle><rect id="SvgjsRect10606" width="13" height="32" fill="#9a98ab" x="285" y="301" class="groupEle"></rect></g>';*/
    var pump = {
        "g#SvgjsG6706":{
            "transform":"matrix(1,0,0,1,-172,113)",
-           "class":"grouparent ele selected",/*
-           "id":"SvgjsG6706",*/
+           "class":"grouparent ele selected",
            "children":{
                "rect#SvgjsRect3247":{
                    "class":"groupEle",
@@ -234,24 +232,21 @@ $('#pump').on('click', function (e) {
                    "x":366,
                    "fill":"#847a91",
                    "height":18,
-                   "width":49/*,
-                   "id":"SvgjsRect3247"*/
+                   "width":49
                },
                "circle#SvgjsCircle2241":{
                    "class":"groupEle",
                    "fill":"#847a91",
                    "cy":259.5,
                    "cx":370.5,
-                   "r":33/*,
-                   "id":"SvgjsCircle2241"*/
+                   "r":33
                },
                "circle#SvgjsCircle1055":{
                    "class":"groupEle",
                    "fill":"red",
                    "cy":258.5,
                    "cx":370.5,
-                   "r":20/*,
-                   "id":"SvgjsCircle1055"*/
+                   "r":20
                },
                "rect#SvgjsRect5010":{
                    "class":"groupEle",
@@ -259,11 +254,10 @@ $('#pump').on('click', function (e) {
                    "x":409,
                    "fill":"#867c94",
                    "height":30,
-                   "width":14/*,
-                   "id":"SvgjsRect5010"*/
+                   "width":14
                }
            }
        }
-   }
+   };
     svg.svg(jsonToSVGAsString(pump));
 });

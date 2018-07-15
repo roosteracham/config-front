@@ -123,9 +123,9 @@ $(function () {
                 delete bindPoints[cla.substr(cla.length - 1)];
             }
         }
-        var type = $('#pointType').val();
-        var pointName = $('#pointName').val();
-        var desc = $('#pointDesc').val();
+        var type = $('#pointType').val().trim();
+        var pointName = $('#pointName').val().trim();
+        var desc = $('#pointDesc').val().trim();
 
         if (type !== null && pointName !== null && desc !== null &&
             type !== '' && pointName !== '' && desc !== '') {
@@ -312,12 +312,13 @@ $('#exportProject').on('click', function () {
     var eles = SVG.select('.ele');
     /*SVGToJson(eles);*/
 
+    var svgString = JSON.stringify(SVGToJson(eles));
     // 需要导出的数据都在 data 里面，存入redis里面的数据格式为： projectName_svgName : svg
     var data = {
         projectName : projectName,
         svgName : svgName,
         index : svgIndex,
-        svg : JSON.stringify(SVGToJson(eles))
+        svg : svgString
     };
 
     // 上传到服务器
@@ -325,6 +326,9 @@ $('#exportProject').on('click', function () {
         'post', 
         JSON.stringify(data),
         function (res) {
+        localStorage.setItem('svg-' + projectName + '-' +
+        svgName + '-' + svgIndex,
+            svgString);
             console.log(res['success']);
         }, function (res) {
             console.log(res['success']);
@@ -338,6 +342,7 @@ function SVGToJson(eles) {
         let ele = eles.get(i);
         let attrs = ele.attr();
         let eleName = ele.node.nodeName.toLocaleLowerCase();
+        attrs['id'] = 'Svgjs' + eleName + uuid();
         var id = eleName + '#' + attrs['id'];
         let data = {};
         for (let key in attrs) {
@@ -412,6 +417,7 @@ function groupedChildrenToJson(eles) {
         let ele = eles[i];
         let attrs = ele.attr();
         let eleName = ele.node.nodeName.toLocaleLowerCase();
+        attrs['id'] = 'Svgjs' + eleName + uuid();
         var id = eleName + '#' + attrs['id'];
         let data = {};
         for (let key in attrs) {
@@ -429,7 +435,7 @@ function groupedChildrenToJson(eles) {
 }
 
 // 获得所有图形
-function getAllEles() {
+function getAllElesAsString() {
     var eles = SVG.select('.ele');
     var o = '';
     for (var i = 0; i < eles.length(); i++) {
@@ -448,14 +454,10 @@ $('#importProject').on('click', function () {
             "svg" : ""
         };
         $.ajaxSetup({contentType : 'application/json; charset=utf-8'});
-        $.post(host + urls.importProject, JSON.stringify(data), function (res) {
-
-            if (svg === null) {
-                //newSVG();
-                svgName = 'default';
-            }
-
-            generateSVG(res);
+        $.post(host + urls.importProject,
+            JSON.stringify(data),
+            function (res) {
+            generateSVG(JSON.parse(res['data']));
         });
     } else {
         alert('工程未建立，无法导入');
@@ -463,9 +465,17 @@ $('#importProject').on('click', function () {
 });
 
 // 生成svg
-function generateSVG(res) {
+function generateSVG(data) {
 
-    svg.svg(jsonToSVGAsString(JSON.parse(res['data'])));
+    svg.clear();
+    // svg 放入localStorage
+    localStorage.setItem('svg-' + projectName +
+        '-' + svgName + '-' + svgIndex,
+        JSON.stringify(data));
+
+    // 生成svg
+    var svgString = jsonToSVGAsString(data);
+    svg.svg(svgString);
 
     // 将导入的测点加入测点集合
     addToBindPoints();
@@ -480,8 +490,12 @@ function generateSVG(res) {
     }
     gradientId = [];
 }
+
 // 将导入的测点加入测点集合
 function addToBindPoints() {
+
+    // 如果没有下面函数的调用则会在执行SVG.select('.bp');的时候出错，具体原因不详
+    getAllEles();
     // 绑定测点的元素 $("[class^='class_']")
     var eles;
     try {

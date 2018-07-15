@@ -19,6 +19,7 @@
     <button id="groupEle" >组合元素</button>
     <button id="unGroup" >取消组合</button>
     <button id="copyEle" >复制元素</button>
+    <button id="saveGroup" >保存组件</button>
     <button id="modifyText" >修改文本</button>
     <button id="rotateLeft_90" >左旋90°</button>
     <button id="rotateRight_90" >右旋90°</button>
@@ -40,8 +41,8 @@
     <button id="point" >运行</button>
     <button id="stop" >断开</button>
 </div>
-<div class="mycontainer">
 
+<div class="mycontainer">
     <button id="but">发送</button>
     <div id="app" class="leftsidebar_box">
         <dl class="system_log" v-for="project in projects" :key="project.index">
@@ -81,26 +82,7 @@
             <dd class="st" id="crossConnector">十字型接头</dd>
             <dd class="st" id="pump">泵</dd>
             <dd class="st" id="valve">阀门</dd>
-        </dl><!--
-        <com-dl v-for="project in projects">
-            {{ project }}
-            <com-dd v-for="(svg, index) in svgs" :key="index" v-if="svg.projectName == project"
-                    :id="svg.id" @click.native="c1">
-                {{ svg.name }}
-            </com-dd>
-        </com-dl>-->
-<!--
-        <com-dl v-for="type in elementType">
-            {{ type }}
-            <com-dd v-for="(ele, index) in elements" :key="index" v-if="ele.type == type"
-                    :id="ele.id" @click.native="c1">
-                {{ ele.name }}
-            </com-dd>
-        </com-dl>-->
-        <!--<com-dl >
-            props.text
-        </com-dl>-->
-
+        </dl>
     </div>
 
     <div class="svg-container" id="svgContainer" style="position: relative; left: 15%;
