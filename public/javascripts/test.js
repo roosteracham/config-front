@@ -113,6 +113,7 @@ var clearOthers = true;
 // 鼠标按下事件
 function mousedownOnNonEle(e) {
 
+    getAllEles();
     //将宽度和高度重置为0
     widthM = 0;
     heightM = 0;
@@ -188,6 +189,7 @@ function getAllEles() {
 // 鼠标弹起处理事件
 function mouseupOnSVG(e) {
 
+    getAllEles();
     if (isMouseover) {
 
         if (rectOnMousemove !== null){
@@ -244,6 +246,7 @@ function mouseupOnSVG(e) {
 
 // 鼠标移动到svg上的处理事件
 function mouseoverOnSVG(e) {
+    getAllEles();
     if (isMouseover) {
 
         // 获取鼠标偏移量
@@ -301,6 +304,7 @@ function clearAllSelected() {
 
 // 点击非图片区域取消选中, 点击图形元素被选中
 function clickNonEleToClear(e) {
+    getAllEles();
     if (isClick) { // 点击
         clearAllSelected();
         if (e.target.nodeName === 'svg') {

@@ -2,7 +2,8 @@ var projectOption = {
     projects : 0,
     svgs : 1,
     elementType : 2,
-    elements : 3
+    elements : 3,
+    components : 4
 }
 
 // 页面加载完成， 向服务器请求数据生成左侧导航
@@ -10,7 +11,7 @@ $(function () {
    // 请求工程
     ajaxOption(host + urls.getProjects, 'post', '',
         function (res) {
-        localStorage.clear();
+
             var projects = JSON.parse(res['data']);
 
             for (let key in projects) {
@@ -32,7 +33,7 @@ $(function () {
                             vm.svgs.push(projects[key][i]);
                         }
                         break;
-                    case projectOption.elementType :
+                    /*case projectOption.elementType :
                         for (let i = 0; i < projects[key].length; i++) {
                             vm.elementType.push(projects[key][i]);
                         }
@@ -40,6 +41,11 @@ $(function () {
                     case projectOption.elements :
                         for (let i = 0; i < projects[key].length; i++) {
                             vm.elements.push(projects[key][i]);
+                        }
+                        break;*/
+                    case projectOption.components :
+                        for (let i = 0; i < projects[key].length; i++) {
+                            vm.components.push(projects[key][i]);
                         }
                         break;
                 }
@@ -53,6 +59,23 @@ $(function () {
         );
 });
 
+// 获取组件
+function getGroupEle(uri) {
+
+    var data = {
+        groupName : componentName
+    };
+
+    ajaxOption(host + uri, 'post', JSON.stringify(data),
+        function (res) {
+        var json = JSON.parse(res['data']);
+            sessionStorage.setItem('group-' + componentName, res['data']);
+            svg.svg(jsonToSVGAsString(json));
+            getAllEles();
+        })
+}
+
+// 获取svg
 function getSvg(uri) {
     var data = {
         projectName: projectName,
@@ -80,9 +103,7 @@ var vm = new Vue({
             {index : 0, projectName : '工程1'}*/
         ],
         svgs : [
-            /*{projectName : '工程1', name : '画面1', id : 'id1', index : 0},
-            {projectName : '工程1', name : '画面2', id : 'id2'},
-            {projectName : '工程2', name : '画面3', id : 'generated_id3'},*/
+            /*{projectName : '工程2', name : '画面3', id : 'generated_id3'},*/
         ],
         elementType : [
            /* {index : 0, project : '基本图形'},
@@ -93,14 +114,18 @@ var vm = new Vue({
             {type : '基本图形', id : 'text', name : '文本', index : 1},
             {type : '工程图形', id : 'pump', name : '泵', index : 2},
             {type : '工程图形', id : 'pipe', name : '管道', index : 3},*/
-        ]
+        ],
+        components : [/*'a', 'b'*/] /*字符数组*/
     },
     methods : {
+        dtClick : function (e) {
+            clickToggle($(e.target));
+        },
         c1 : function (e) {
             var id = e.target.id;
-            if (id.indexOf('svg') > -1 || id.indexOf('group') > -1) {
+            var attrs = id.split('-');
+            if (id.indexOf('svg') > -1) {
                 //console.log('c1 in methods');
-                var attrs = id.split('-');
                 projectName = attrs[1];
                 svgName = attrs[2];
                 var index = attrs[3];
@@ -108,26 +133,32 @@ var vm = new Vue({
                 if ('svg' === attrs[0] && svgIndex !== index) {
 
                     svgIndex = index;
-                    let item = localStorage.getItem(id);
-                    //尝试从localStorage获取， 没有则从服务器获取
+                    let item = sessionStorage.getItem(id);
+                    //尝试从sessionStorage获取， 没有则从服务器获取
                     if (typeof item !== "undefined" && item !== '' && null !== item) {
                         generateSVG(JSON.parse(item));
                     } else {
                         uri = urls.importProject;
 
-                        // 从服务器获取，同时存入localStorage
+                        // 从服务器获取，同时存入sessionStorage
                         getSvg(uri);
                     }
-                } else
+                }
+            } else if (id.indexOf('group') > -1) {
+                componentName = attrs[1];
+                var item = sessionStorage.getItem('group-' + componentName);
+                if (typeof item !== "undefined" && item != null) {
+                    svg.svg(jsonToSVGAsString(JSON.parse(item)));
+                }else {
                     // 获取组件的接口
-                    uri = urls.importProject;
-                // 从服务器请求数据或者本地寻找数据
+                    uri = urls.getGroupedEle;
+                    // 从服务器请求数据或者本地寻找数据
+                    getGroupEle(uri);
+                }
+            }
+
                 e.stopPropagation()
             }
-        },
-        c2 : function (e) {
-            clickToggle($(e.target));
         }
-    }
 });
 

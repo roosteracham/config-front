@@ -19,13 +19,9 @@ $('#saveGroup').on('click', function () {
             if ('g' !== group.type) {
                 alert('单个元素无需保存！');
             } else {
-                // 解析为json对象
-                let json = SVGToJson(selected);
-
-                // 传入服务器
-                saveGroupedEle(json);
-
-                // 更新组件列表
+                $('#myModalLabel')[0].innerHTML = '组件名称';
+                id = 'newComponent';
+                $('#myModal').modal('show');
             }
         } else if (selected.length() === 0) {
             alert('请选择需要导出的组件！');
@@ -36,15 +32,18 @@ $('#saveGroup').on('click', function () {
 });
 
 // 保存组件
-function saveGroupedEle(json) {
+function saveGroupedEle(json, name) {
 
     var data = {
-        "groupName" : "zujian1",
-        "data" : JSON.stringify(json)
+        groupName : name,
+        data : json
     };
+
+    sessionStorage.setItem('group-' + name, json);
 
     // ajax请求
     ajaxOption(host + urls.saveGroupedEle, 'post', JSON.stringify(data));
+    
 }
 
 // 选中删除元素
@@ -377,6 +376,7 @@ function updateDataOnEle(o, data) {
             break;
     }
 }
+
 // 更新数字
 function updateNumber(o, data) {
     if (o.node.nodeName === 'text') {

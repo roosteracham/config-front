@@ -6,7 +6,7 @@
 var eventTarget = {
     newProject : 'newProject',
     newSvg : 'newSvg',
-    bindPoint : 'bindPoint',
+    newComponent : 'newComponent',
     modifyText : 'modifyText'
 };
 
@@ -30,17 +30,20 @@ $(function () {
                 val = '工程名称';
                 break;
             case eventTarget.newSvg : // 新建画面
-                val = '工程画面';
+                val = '画面名称';
                 break;
             case eventTarget.modifyText : // 新建画面
                 val = SVG.select('.selected').get(0).node.innerHTML;
+                break;
+            case eventTarget.newComponent :
+                val = '组件名称';
                 break;
         }
 
         // 重新添加输入框
         var child = $("<input>", {
             type:'text',
-            val : val,
+            placeholder : val,
             id : 'newInput',
             function:function(){
                 $(this).addClass('form-control');
@@ -66,7 +69,11 @@ $(function () {
         if (isConfirmNew) {
 
             // 获取输入框内容
-            var name = $('#newInput').val(); //this.childNodes[1].childNodes[1].childNodes[3].childNodes[0].value;
+            var name = $('#newInput').val().trim();
+            if (name === '' || name === null) {
+                alert('名字不能为空');
+                return;
+            }
             if (id === 'newProject') {  // 新建工程
                 projectName = name;
                 // 更新工程列表
@@ -86,7 +93,6 @@ $(function () {
                         // 清空画面
                         if (svg !== null) {
                             svg.clear();
-                            //svg = null;
                         }
                         var data = {
                             projectName : projectName,
@@ -101,6 +107,18 @@ $(function () {
                     //newSVG();
             } else if (id === 'modifyText') { // 修改文本
                 SVG.select('.selected').get(0).node.innerHTML = name;
+            } else {
+
+                var selected = SVG.select('.selected');
+                // 解析为json对象
+                let json = SVGToJson(selected);
+
+                // 传入服务器
+                saveGroupedEle(JSON.stringify(json), name);
+
+                // 更新组件列表
+                if (!isComponentExists(name))
+                    vm.components.push(name);
             }
         }
         isConfirmNew = false;
@@ -182,6 +200,8 @@ $(function () {
 // 工程名称
 var projectName = null;
 
+// 组件名字
+var componentName = null;
 // 画面名称
 var svgName = null;
 
@@ -213,6 +233,16 @@ function isSvgExistsInCollection(name, pName) {
         }
     }
 
+    return false;
+}
+
+// 组件是都存在
+function isComponentExists(name) {
+    var components = vm.components;
+    for (let i = 0; i < components.length; i++) {
+        if (name === components[i])
+            return true;
+    }
     return false;
 }
 // 新建工程
@@ -326,7 +356,7 @@ $('#exportProject').on('click', function () {
         'post', 
         JSON.stringify(data),
         function (res) {
-        localStorage.setItem('svg-' + projectName + '-' +
+        sessionStorage.setItem('svg-' + projectName + '-' +
         svgName + '-' + svgIndex,
             svgString);
             console.log(res['success']);
@@ -468,8 +498,8 @@ $('#importProject').on('click', function () {
 function generateSVG(data) {
 
     svg.clear();
-    // svg 放入localStorage
-    localStorage.setItem('svg-' + projectName +
+    // svg 放入sessionStorage
+    sessionStorage.setItem('svg-' + projectName +
         '-' + svgName + '-' + svgIndex,
         JSON.stringify(data));
 
@@ -566,7 +596,7 @@ function newSVG() {
         //svg 添加鼠标移动事件
         svg.mousemove(mouseoverOnSVG);
 
-        // 放到localstorage 里面
+        // 放到sessionStorage 里面
         //loc
     return svg;
 }

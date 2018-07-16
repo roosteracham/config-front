@@ -23,6 +23,8 @@ var urls = {
     importProject : '/project/import',
     // 导出组合元素
     saveGroupedEle : '/project/saveGroup',
+    // 导出组合元素
+    getGroupedEle : '/project/getGroup',
     // 可以获得工程集合
     getProjects : '/project/getProjectsCollection',
     // 可添加元素集合
