@@ -214,8 +214,8 @@ $('#light').on('click', function (e) {
     myResize(light);
 });
 
-$('#pump').on('click', function (e) { 
-     
+// 新建泵
+$('#pump').on('click', function (e) {
     
    if (svgName === null || projectName === null) {
        return;
@@ -260,4 +260,159 @@ $('#pump').on('click', function (e) {
        }
    };
     svg.svg(jsonToSVGAsString(pump));
+});
+
+// 新建原料罐1
+$('#tank1').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 C 0 -30 70 -30  70 0 v 100 h -70 z';
+    let p = pathGraph(path, getGradient());
+    myResize(p);
+});
+
+// 新建原料罐2
+$('#tank2').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 C 0 -30 70 -30  70 0 v 100 C 70 130 0 130 0 100 z';
+    let p = pathGraph(path, getGradient());
+    myResize(p);
+});
+
+// 新建U管道
+$('#uPipe').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 h 50 v60 h 40 v -60 h 50 v 20 h -20 v 70 h -100 v -70 h -20 z';
+    let p = pathGraph(path, getGradient());
+    myResize(p);
+});
+
+// 新建T转角
+$('#tConnector').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 h 40 v 20 h 30 v 40 h -30 v 20 h -40 z';
+    let p = pathGraph(path, getGradient());
+    myResize(p);
+});
+
+// 新建T转角
+$('#rightAngleConnector').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 h 40 v 25 h 25 v 40 h -65 z';
+    let p = pathGraph(path, getGradient());
+    myResize(p);
+});
+
+// 新建圆转角
+$('#roundConnector').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 h 40 C 40 20 60 20 60 20 v 40 C 60 60 0 60 0 0';
+    let p = pathGraph(path, getGradient());
+    myResize(p);
+});
+
+// 新建圆转角
+$('#crossConnector').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 h 40 v 20 h 20 v 40 h -20 v 20 h -40 v -20 h -20 v -40 h 20 z';
+    let p = pathGraph(path, getGradient());
+    myResize(p);
+});
+
+// 新建阀门
+$('#valve').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 h 80 v 20 h -80 v -20 m 40 20' +
+        ' v 30 h 5 v -30 h -5 m 0 30 l 40 20 v -40 l -80 40 v -40 l 40 20';
+    let p = pathGraph(path, getGradient());
+    myResize(p);
+});
+
+// 新建扇叶片
+$('#flabellum').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 h 60 C60 30 50 30 50 30 l -50 -30 v 60 C 0 60 -30 60 -30 50 l 30 -50 ' +
+        'h -60 C -60 -30 -50 -30 -50 -30 l 50 30 v -60 C 0 -60 30 -60 30 -50 l -30 50';
+    let p = pathGraph(path, getGradient());
+    myResize(p);
+});
+
+function pathGraph(path, fill) {
+    return svg.path(path)
+        .fill(fill)
+        .stroke({
+            width : 1
+        });
+}
+
+// 电子元件
+
+// 电容
+$('#cap').on('click', function () {
+
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 h 20 m 0 -7.5 v 15 m 5 0 v -15 m 0 7.5 h 20';
+    let p = pathGraph(path, getGradient());
+    p.stroke({
+        width : 4,
+        color : 'black',
+        linecap: 'round',
+        linejoin: 'round'
+    });
+    myResize(p)
+});
+
+// 电阻
+$('#Resistor').on('click', function () {
+
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 h 20 v -5 h25 v 10 h -25 v -10 m 25 5 h 20';
+    let p = svg.path(path);
+    p.fill('none')
+        .stroke({
+        width : 4,
+        color : 'black',
+        linecap: 'round',
+        linejoin: 'round'
+    });
+    myResize(p)
+});
+
+// 接地
+$('#ground').on('click', function () {
+
+    if (svgName === null || projectName === null) {
+        return;
+    }
+    let path = 'M0 0 v15 m -8 0 h 16 m -14 3 h 12 m -9 3 h 6';
+    let p = svg.path(path);
+    p.fill('none')
+        .stroke({
+            width : 2,
+            color : 'black',
+            linecap: 'round',
+            linejoin: 'round'
+        });
+    myResize(p)
 });
