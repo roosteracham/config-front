@@ -283,15 +283,6 @@ $("#newSvg").on("click", function (e) {
     }
 });
 
-// 清除工程
-$("#deletesvg").on("click", function () {
-    svg.clear();
-    //svg = null;
-    //$("#svgContainer svg").remove();
-    svgName = null;
-    bindPoints = {};
-});
-
 // 更新工程列表和画面列表
 function updateColletion() {
     var data = {
@@ -498,6 +489,7 @@ $('#importProject').on('click', function () {
 function generateSVG(data) {
 
     svg.clear();
+    bindPoints = {};
     // svg 放入sessionStorage
     sessionStorage.setItem('svg-' + projectName +
         '-' + svgName + '-' + svgIndex,

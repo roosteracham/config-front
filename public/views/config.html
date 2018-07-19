@@ -81,7 +81,7 @@
             <dd class="st" id="valve">阀门</dd>
         </dl>
         <dl class="system_log" >
-            <dt v-once >自定义组件<img ></dt>
+            <dt v-once @click="dtClick">自定义组件<img ></dt>
             <dd  class="st" v-for="(name, index) in components" :key="index"
                  :id="'group-' + name"
                  @click="c1">

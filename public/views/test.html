@@ -13,6 +13,7 @@
     <p v-text="d1"></p>
 </div>
 <script>
+    var a = new Array(2);
     var base = 'http://localhost:8888/c1';
     var vm = new Vue({
         el : '#app-1',
@@ -35,7 +36,7 @@
                 })
             },
             getAttr : function (e) {
-                console.log(e.target.instance.attr())
+                alert(hash("abc"))
             }
         }
     })
