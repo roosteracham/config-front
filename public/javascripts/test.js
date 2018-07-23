@@ -195,7 +195,7 @@ function getAllEles() {
 // 鼠标弹起处理事件
 function mouseupOnSVG(e) {
 
-    getAllEles();
+    getAllEles();/*
     if (SVG.select('.selected').length() > 1) {
         var eles = SVG.select('.selected');
         for (var i = 0; i < eles.length(); i++) {
@@ -203,7 +203,7 @@ function mouseupOnSVG(e) {
             if (ele !== clickEle)
                 ele.dmove(clickEle.x() - clickEleX, clickEle.y() - clickEleY);
         }
-    }
+    }*/
     if (isMouseover) {
 
         if (rectOnMousemove !== null){
@@ -283,13 +283,17 @@ function mouseoverOnSVG(e) {
 
                 rect.get(0).size(widthM, heightM);
             }
-        } /*else {
+        } else {
             var eles = SVG.select('.selected');
             for (var i = 0; i < eles.length(); i++) {
                 var ele = eles.get(i);
-                ele.dmove(dx, dy);
+                if (ele !== clickEle) {
+                    ele.dmove(clickEle.x() - clickEleX, clickEle.y() - clickEleY);
+                }
             }
-        }*/
+            clickEleX = clickEle.x();
+            clickEleY = clickEle.y();
+        }
     }
 }
 
