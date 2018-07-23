@@ -110,6 +110,10 @@ var rectOnMousemove = null;
 // 多个元素被选中，一起拖动
 var clearOthers = true;
 
+var clickEle = null;
+
+var clickEleX = 0,
+clickEleY = 0;
 // 鼠标按下事件
 function mousedownOnNonEle(e) {
 
@@ -134,7 +138,6 @@ function mousedownOnNonEle(e) {
         // 获取鼠标点击时相对于svg背景的坐标
         beginX = e.layerX;
         beginY = e.layerY;
-        //console.log(beginX, beginY)
 
         // 画矩形， 此矩形被 rectMousemove class标识 ， 在鼠标弹起时依据此class 删除
         // 在鼠标移动时，依据此class 选择，并根据鼠标偏移量设置此矩形的宽度和高度
@@ -152,6 +155,9 @@ function mousedownOnNonEle(e) {
         } else {
             o = e.target.instance;
         }
+        clickEle = o;
+        clickEleX = clickEle.x();
+        clickEleY = clickEle.y();
         var classes = o.classes();
         for (var i = 0; i < classes.length; i++) {
             if (classes[i] === 'selected') {
@@ -190,6 +196,14 @@ function getAllEles() {
 function mouseupOnSVG(e) {
 
     getAllEles();
+    if (SVG.select('.selected').length() > 1) {
+        var eles = SVG.select('.selected');
+        for (var i = 0; i < eles.length(); i++) {
+            var ele = eles.get(i);
+            if (ele !== clickEle)
+                ele.dmove(clickEle.x() - clickEleX, clickEle.y() - clickEleY);
+        }
+    }
     if (isMouseover) {
 
         if (rectOnMousemove !== null){
@@ -253,13 +267,15 @@ function mouseoverOnSVG(e) {
         var dx = e.movementX,
             dy = e.movementY;
 
+        // 设置矩形宽度和高度
+        widthM += dx;
+        heightM += dy;
+        
         if (e.target.nodeName === 'svg') {
 
-            // 设置矩形宽度和高度
-            widthM += dx;
-            heightM += dy;
             widthM = widthM > 0 ? widthM : 0;
             heightM = heightM > 0 ? heightM : 0;
+
             var rect = SVG.select('.rectMousemove');
 
             // svg中只应该有一个class 为 rectMouseMove 的矩形
@@ -267,13 +283,13 @@ function mouseoverOnSVG(e) {
 
                 rect.get(0).size(widthM, heightM);
             }
-        } else {
+        } /*else {
             var eles = SVG.select('.selected');
             for (var i = 0; i < eles.length(); i++) {
                 var ele = eles.get(i);
                 ele.dmove(dx, dy);
             }
-        }
+        }*/
     }
 }
 
@@ -371,6 +387,7 @@ function myResize(o) {
 
     // 为元素添加鼠标弹起事件
     //mouseupOnEle(o);
+    return o;
 }
 
 // 鼠标在元素上被按下

@@ -71,7 +71,7 @@ function getGroupEle(uri) {
         var json = JSON.parse(res['data']);
             sessionStorage.setItem('group-' + componentName, res['data']);
             svg.svg(jsonToSVGAsString(json));
-            getAllEles();
+            addMouseDownEventOnEle();
         })
 }
 
@@ -149,6 +149,7 @@ var vm = new Vue({
                 var item = sessionStorage.getItem('group-' + componentName);
                 if (typeof item !== "undefined" && item != null) {
                     svg.svg(jsonToSVGAsString(JSON.parse(item)));
+                    addMouseDownEventOnEle();
                 }else {
                     // 获取组件的接口
                     uri = urls.getGroupedEle;
@@ -156,8 +157,7 @@ var vm = new Vue({
                     getGroupEle(uri);
                 }
             }
-
-                e.stopPropagation()
+            e.stopPropagation()
             }
         }
 });

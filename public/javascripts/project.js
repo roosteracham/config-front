@@ -485,6 +485,14 @@ $('#importProject').on('click', function () {
     }
 });
 
+function addMouseDownEventOnEle() {
+    let eles = getAllEles();
+    for (let i = 0; i < eles.length(); i++) {
+        let ele = eles.get(i);
+        mousedownOnEle(ele);
+    }
+}
+
 // 生成svg
 function generateSVG(data) {
 
@@ -511,6 +519,9 @@ function generateSVG(data) {
         }
     }
     gradientId = [];
+
+    // 为各元素添加鼠标按下事件， 鼠标按下事件不能通过svg来添加
+    addMouseDownEventOnEle();
 }
 
 // 将导入的测点加入测点集合

@@ -286,6 +286,13 @@ $('#bindPoint').on('click', function () {
 // websocket实例
 var ws = null;
 
+// 测点集合
+var bindPoints = {};
+
+function createNewWS(url) {
+    return new WebSocket(url);
+}
+
 // 测点类型
 var pointTypes = {
     NUMBER: 'number',

@@ -10,4 +10,16 @@ router.get('/test', function(req, res, next) {
     res.render('test');
 });
 
+router.get('/greets', function(req, res, next) {
+    if ('expire' === req.query.error) {
+        res.send('expire');
+    } else  {
+        res.send('greets')
+    }
+    
+});
+
+router.get('/greeting', function(req, res, next) {
+    res.render('greetingCard');
+});
 module.exports = router;

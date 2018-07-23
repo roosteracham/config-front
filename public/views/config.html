@@ -44,7 +44,7 @@
     <div id="app" class="leftsidebar_box">
         <dl class="system_log" v-for="project in projects" :key="project.index">
             <dt v-once @click="dtClick">{{project.projectName}}<img ></dt>
-            <dd  class="st" v-for="svg in svgs" :id="svg.id" :key="svg.index"
+            <dd  class="st menu_chioce" v-for="svg in svgs" :id="svg.id" :key="svg.index"
                  v-if="svg.projectName == project.projectName" @click="c1">
                 {{ svg.name }}
             </dd>
@@ -87,8 +87,8 @@
             <dd class="st" id="ground">接地</dd>
         </dl>
         <dl class="system_log" >
-            <dt v-once @click="dtClick">自定义组件<img ></dt>
-            <dd  class="st" v-for="(name, index) in components" :key="index"
+            <dt v-once >自定义组件<img ></dt>
+            <dd  class="st menu_chioce" v-for="(name, index) in components" :key="index"
                  :id="'group-' + name"
                  @click="c1">
                 {{ name }}
@@ -117,7 +117,6 @@
 
 <script type="text/javascript" src="../javascripts/ajaxOption.js"></script>
 <script type="text/javascript" src="../javascripts/test.js"></script>
-<script type="text/javascript" src="../javascripts/webSocket.js"></script>
 <script type="text/javascript" src="../javascripts/project.js"></script>
 <script type="text/javascript" src="../javascripts/myvue.js"></script>
 <script type="text/javascript" src="../javascripts/manipulate.js"></script>
