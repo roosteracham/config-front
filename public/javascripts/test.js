@@ -195,15 +195,7 @@ function getAllEles() {
 // 鼠标弹起处理事件
 function mouseupOnSVG(e) {
 
-    getAllEles();/*
-    if (SVG.select('.selected').length() > 1) {
-        var eles = SVG.select('.selected');
-        for (var i = 0; i < eles.length(); i++) {
-            var ele = eles.get(i);
-            if (ele !== clickEle)
-                ele.dmove(clickEle.x() - clickEleX, clickEle.y() - clickEleY);
-        }
-    }*/
+    getAllEles();
     if (isMouseover) {
 
         if (rectOnMousemove !== null){

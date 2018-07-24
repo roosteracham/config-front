@@ -423,6 +423,7 @@ function updateSwitch(o, data) {
     }
 }
 
+// 复制元素
 $('#copyEle').on('click', function () {
    if (svg === null) {
        return;
@@ -434,14 +435,18 @@ $('#copyEle').on('click', function () {
        var x = ele.x();
        var y = ele.y();
        var  temp = ele.clone();
-       temp.move(100, 100);
+       temp.dmove(20, 20);
        ele.selectize(false);
+       ele.removeClass('selected');
+       temp.selectize().draggable();
+       mousedownOnEle(temp);
    }
 });
 
+// 修改文本
 $('#modifyText').on('click', function () {
 
-    if (svg === null) {
+    if (svgName === null || projectName === null) {
         return;
     }
 
@@ -451,4 +456,100 @@ $('#modifyText').on('click', function () {
         id = 'modifyText';
         $('#myModal').modal('show');
     }
-})
+});
+
+// 左对齐
+$('#alignLeft').on('click', function () {
+    let eles = SVG.select('.selected');
+    if (eles.length() > 1) {
+        let left = eles.get(0);
+        // 找出最左边的元素
+        for (let i = 1; i < eles.length(); i++) {
+            let temp = eles.get(i);
+            if (temp.x() < left.x()) {
+                left = temp;
+            }
+        }
+
+        // 对齐
+        for (let i = 0; i < eles.length(); i++) {
+            let ele = eles.get(i);
+            if (left !== ele) {
+                ele.y(left.y());
+            }
+        }
+    }
+});
+
+// 右对齐
+$('#alignRight').on('click', function () {
+    let eles = SVG.select('.selected');
+    if (eles.length() > 1) {
+        let left = eles.get(0);
+
+        // 找出最右边的元素
+        for (let i = 1; i < eles.length(); i++) {
+            let temp = eles.get(i);
+            if (temp.x() > left.x()) {
+                left = temp;
+            }
+        }
+
+        // 对齐
+        for (let i = 0; i < eles.length(); i++) {
+            let ele = eles.get(i);
+            if (left !== ele) {
+                ele.y(left.y());
+            }
+        }
+    }
+});
+
+
+// 上对齐
+$('#alignTop').on('click', function () {
+    let eles = SVG.select('.selected');
+    if (eles.length() > 1) {
+        let left = eles.get(0);
+
+        // 找出最右边的元素
+        for (let i = 1; i < eles.length(); i++) {
+            let temp = eles.get(i);
+            if (temp.y() < left.y()) {
+                left = temp;
+            }
+        }
+
+        // 对齐
+        for (let i = 0; i < eles.length(); i++) {
+            let ele = eles.get(i);
+            if (left !== ele) {
+                ele.x(left.x());
+            }
+        }
+    }
+});
+
+// 下对齐
+$('#alignBottom').on('click', function () {
+    let eles = SVG.select('.selected');
+    if (eles.length() > 1) {
+        let left = eles.get(0);
+
+        // 找出最右边的元素
+        for (let i = 1; i < eles.length(); i++) {
+            let temp = eles.get(i);
+            if (temp.y() > left.y()) {
+                left = temp;
+            }
+        }
+
+        // 对齐
+        for (let i = 0; i < eles.length(); i++) {
+            let ele = eles.get(i);
+            if (left !== ele) {
+                ele.x(left.x());
+            }
+        }
+    }
+});
