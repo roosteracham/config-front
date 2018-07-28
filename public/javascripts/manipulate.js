@@ -314,7 +314,7 @@ $('#point').on('click', function () {
         //var eles = SVG.select("[class^='.bindPoint_']");
 
         if (ws === null) {
-            var url = 'ws://localhost:8888/websocket';
+            var url = 'ws://localhost:8888/zutai/dev/myHandler';
             ws = createNewWS(url);
         }
 
@@ -327,6 +327,7 @@ $('#point').on('click', function () {
 
         ws.onmessage = function (evt) {
             var received_msg = JSON.parse(evt.data);
+            localStorage.setItem('received_msg', JSON.stringify(received_msg));
             //ele.node.firstChild.textContent = received_msg;
 
             // 更新绑定该测点的所有图形
@@ -550,6 +551,31 @@ $('#alignBottom').on('click', function () {
             if (left !== ele) {
                 ele.x(left.x());
             }
+        }
+    }
+});
+
+// 实时趋势
+$('#realTimeTrend').on('click', function () {
+    var ele = SVG.select('.selected');
+
+    // 只能选中一个
+    if (ele.length() === 1) {
+        ele = ele.get(0);
+        var point = null;
+        var clas = ele.classes();
+        for (var i = 0; i < clas.length; i++) {
+            var cla = clas[i];
+            if (cla.indexOf('bindPoint') > -1) {
+                var index = cla.indexOf('_');
+                point = cla.substr(index + 1);
+                break;
+            }
+        }
+
+        // 打开实时趋势选项卡
+        if (point !== null && point !== '') {
+            window.open('http://localhost/realTimeTrend.html?key=' + point + '&');
         }
     }
 });

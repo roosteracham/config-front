@@ -14,7 +14,7 @@ function ajaxOption(url, type, data, sucallback, errcallback) {
 }
 
 // 后端主机名
-var host = 'http://localhost:8888';
+var host = 'http://localhost:8888/zutai/dev';
 
 var urls = {
     // 保存图形
