@@ -54,7 +54,7 @@ $(function () {
             //console.log('suc', res['data']);
         },
         function () {
-            console.log('error');
+            alert('初始化出错');
         }
         );
 });
@@ -89,10 +89,10 @@ function getSvg(uri) {
             if (res['success']) {
                 generateSVG(JSON.parse(res['data']));
             } else {
-                console.log('请求成功，返回错误')
+                alert('请求成功，返回错误')
             }
         }, function () {
-            console.log('error')
+            alert('error')
         });
 }
 

@@ -301,10 +301,12 @@ function updateColletion() {
                 /*if (!containsObject(vm.projects, projectName))
                     vm.projects.push(projectName);
                 vm.svgs.push(data);*/
-                console.log(res['success']);
+                //console.log("更新列表成功");
+            } else {
+                alert("更新列表时，服务器出错")
             }
         }, function (err) {
-            console.log(err);
+            alert("更新列表出错");
         }
         );
 }
@@ -350,9 +352,9 @@ $('#exportProject').on('click', function () {
         sessionStorage.setItem('svg-' + projectName + '-' +
         svgName + '-' + svgIndex,
             svgString);
-            console.log(res['success']);
+            alert("保存成功！");
         }, function (res) {
-            console.log(res['success']);
+            alert("保存出错！")
         });
 });
 
