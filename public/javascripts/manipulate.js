@@ -579,3 +579,64 @@ $('#realTimeTrend').on('click', function () {
         }
     }
 });
+
+// 删除画面
+$('#deleteSvg').on('click', function () {
+
+    // 从数据库中删除
+    deleteFromDB();
+});
+
+// 从数据库中删除
+function deleteFromDB() {
+    var data = {
+        projectName : projectName,
+        svgIndex : svgIndex,
+        name : svgName
+    };
+
+    ajaxOption(host + urls.deleteSvg, 'post',
+        JSON.stringify(data),
+        function (res) {
+            if (res['success']) {
+                alert("画面删除成功！");
+                var jsonDatas = vm.svgs;
+                var index = -1;
+                for (var i = 0; i < jsonDatas.length; i++) {
+                    var jsonData = jsonDatas[i];
+
+                    if (jsonData['projectName'] === projectName &&
+                            jsonData['name'] === svgName) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (-1 !== index) {
+                    vm.svgs.splice(index, 1);
+                }
+                if (vm.svgs.length !== 0) {
+                    var first = vm.svgs[0];
+                    projectName = first['projectName'];
+                    svgName = first['name'];
+                    svgIndex = first['index'];
+                    var id = first['id'];
+                    let item = sessionStorage.getItem(id);
+                    //尝试从sessionStorage获取， 没有则从服务器获取
+                    if (typeof item !== "undefined" && item !== '' && null !== item) {
+                        generateSVG(JSON.parse(item));
+                    } else {
+                        uri = urls.importProject;
+
+                        // 从服务器获取，同时存入sessionStorage
+                        getSvg(uri);
+                    }
+                }
+            } else {
+                alert("服务器出错！")
+            }
+        },
+        function () {
+            alert("画面删除失败！")
+        })
+}

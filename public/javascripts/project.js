@@ -219,7 +219,7 @@ function getProjectIndex(project) {
     var projects = vm.projects;
     for (let i = 0; i < projects.length; i++) {
         if (project === projects[i]['projectName'])
-            return projects[i]['index'];
+            return projects[i]['projectId'];
     }
     return -1;
 }
@@ -302,11 +302,14 @@ function updateColletion() {
                     vm.projects.push(projectName);
                 vm.svgs.push(data);*/
                 //console.log("更新列表成功");
+
+                // 保存画面
+                saveSvg();
             } else {
-                alert("更新列表时，服务器出错")
+                alert("更新列表时，服务器出错，无法保存！")
             }
         }, function (err) {
-            alert("更新列表出错");
+            alert("更新列表出错，无法保存！");
         }
         );
 }
@@ -320,16 +323,8 @@ function containsObject(array, o) {
     return false;
 }
 
-// 保存工程 提交给服务器
-$('#exportProject').on('click', function () {
-    if (svgName === null || projectName === null) {
-        return;
-    }
-
-    // 更新工程列表和画面列表
-    updateColletion();
-
-    // 导出之前清除选中状态
+function saveSvg() {
+// 导出之前清除选中状态
     clearAllSelected();
 
     var eles = SVG.select('.ele');
@@ -338,24 +333,34 @@ $('#exportProject').on('click', function () {
     var svgString = JSON.stringify(SVGToJson(eles));
     // 需要导出的数据都在 data 里面，存入redis里面的数据格式为： projectName_svgName : svg
     var data = {
-        projectName : projectName,
-        svgName : svgName,
-        index : svgIndex,
-        svg : svgString
+        projectName: projectName,
+        svgName: svgName,
+        index: svgIndex,
+        svg: svgString
     };
 
     // 上传到服务器
-    ajaxOption(host + urls.exportProject, 
-        'post', 
+    ajaxOption(host + urls.exportProject,
+        'post',
         JSON.stringify(data),
         function (res) {
-        sessionStorage.setItem('svg-' + projectName + '-' +
-        svgName + '-' + svgIndex,
-            svgString);
+            sessionStorage.setItem('svg-' + projectName + '-' +
+                svgName + '-' + svgIndex,
+                svgString);
             alert("保存成功！");
         }, function (res) {
             alert("保存出错！")
         });
+}
+
+// 保存工程 提交给服务器
+$('#exportProject').on('click', function () {
+    if (svgName === null || projectName === null) {
+        return;
+    }
+
+    // 更新工程列表和画面列表
+    updateColletion();
 });
 
 // 将svg字符串转为json对象

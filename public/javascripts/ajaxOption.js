@@ -28,5 +28,7 @@ var urls = {
     // 可以获得工程集合
     getProjects : '/project/getProjectsCollection',
     // 可添加元素集合
-    addProject : '/project/addProjectToCollection'
-}
+    addProject : '/project/addProjectToCollection',
+    // 删除画面
+    deleteSvg : '/project/deleteSvg'
+};
