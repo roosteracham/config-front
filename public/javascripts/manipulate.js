@@ -42,7 +42,10 @@ function saveGroupedEle(json, name) {
     sessionStorage.setItem('group-' + name, json);
 
     // ajax请求
-    ajaxOption(host + urls.saveGroupedEle, 'post', JSON.stringify(data));
+    ajaxOption(host + urls.saveGroupedEle, 'post', JSON.stringify(data), null, null,
+        function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
+        });
     
 }
 
@@ -318,8 +321,9 @@ $('#point').on('click', function () {
             ws = createNewWS(url);
         }
 
-        ws.onopen = function () {
+        ws.onopen = function (req) {
             // 发送所有测点
+            //req.setHeader("Authorization", localStorage.getItem("token"));
             ws.send(data);
             // Web Socket 已连接上，使用 send() 方法发送数据
             console.log("数据发送中...");
@@ -595,6 +599,7 @@ function deleteFromDB() {
         name : svgName
     };
 
+    // ajax请求
     ajaxOption(host + urls.deleteSvg, 'post',
         JSON.stringify(data),
         function (res) {
@@ -638,5 +643,8 @@ function deleteFromDB() {
         },
         function () {
             alert("画面删除失败！")
+        },
+        function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
         })
 }

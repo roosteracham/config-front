@@ -1,5 +1,5 @@
 // 数据 data 为字符串
-function ajaxOption(url, type, data, sucallback, errcallback) {
+function ajaxOption(url, type, data, sucallback, errcallback, setHeader) {
     $.ajax({
        url : url, // 规定发送请求的 URL。默认是当前页面
        async : true, // 布尔值，表示请求是否异步处理。默认是 true
@@ -9,12 +9,13 @@ function ajaxOption(url, type, data, sucallback, errcallback) {
        contentType : 'application/json; charset=utf-8', //发送数据到服务器时所使用的内容类型
        success : sucallback,
        error : errcallback,
-        timeout : 30 * 1000 // 设置本地的请求超时时间（以毫秒计）
+       beforeSend : setHeader,
+       timeout : 30 * 1000 // 设置本地的请求超时时间（以毫秒计）
     });
 }
 
 // 后端主机名
-var host = 'http://localhost:8888/zutai/dev';
+var host = 'http://localhost/zutai/dev';
 
 var urls = {
     // 保存图形
@@ -30,5 +31,9 @@ var urls = {
     // 可添加元素集合
     addProject : '/project/addProjectToCollection',
     // 删除画面
-    deleteSvg : '/project/deleteSvg'
+    deleteSvg : '/project/deleteSvg',
+    // 注册用户
+    register : '/user/register',
+    // 登陆
+    login : '/user/login'
 };

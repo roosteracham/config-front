@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+<div id="hidebg"></div>
+<div class="header"></div>
+<div class="main" style="background:url(https://csdnimg.cn/passport/login-bg.png)">
+    <div class="container container-custom">
+        <div class="row wrap-login">
+            <div class="login-banner col-sm-6 col-md-7 col-lg-7 hidden-xs">
+                <a href="https://www.nju.edu.cn/" target="_blank">
+                    <img src="../images/png/njdxbdl.png" class="img-responsive">
+                </a>
+            </div>
+            <div class="login-user col-xs-12 col-sm-6 col-md-5 col-lg-5">
+                <div class="login-part">
+                    <h3>注册账号</h3>
+                    <div class="user-info">
+                        <div class="user-pass">
+
+                            <form id="fm1" action="#" method="post" name="form1" onsubmit="return check()">
+                                <input type="hidden">
+                                <input id="name" name="name" tabindex="1" placeholder="用户名" class="user-name"
+                                       type="text" value="">
+                                <div class="mobile-auth" style="display:none">
+                                    <span></span>
+                                    <a href="" class="mobile-btn"></a>
+                                </div>
+                                <input id="emailAddr" name="emailAddr" tabindex="1" placeholder="邮箱"
+                                       class="user-name" type="text" value="">
+                                <div class="mobile-auth" style="display:none">
+                                    <span></span>
+                                    <a href="" class="mobile-btn"></a>
+                                </div>
+                                <input id="password" type="password" name="password" tabindex="1"
+                                       placeholder="设置密码"
+                                       class="user-name" type="text" value="">
+                                <div class="mobile-auth" style="display:none"><span></span>
+                                    <a href="" class="mobile-btn"></a>
+                                </div>
+                                <input id="password2" type="password" name="password2" tabindex="1"
+                                       placeholder="确认密码"
+                                       class="user-name" type="text" value="">
+                                <div class="mobile-auth" style="display:none"><span></span>
+                                    <a href="" class="mobile-btn"></a>
+                                </div>
+                                <a href="/login.html"><input type="" name="" style="display:none"/>返回登陆</a><br/><br/>
+
+                                <button type="button" class="btn btn-default" onclick="empty();">重置</button>
+                                <button type="submit" class="btn btn-primary">注册</button>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="../stylesheets/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../stylesheets/config.css">
+<script type="text/javascript" src="../javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="../javascripts/jquery.min.js"></script>
+<script src="../javascripts/ajaxOption.js"></script>
+<script src="../javascripts/config.js"></script>
+</body>
+</html>

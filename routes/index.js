@@ -6,7 +6,20 @@ router.get('/', function(req, res, next) {
   res.render('config');
 });
 
-router.get('/index', function(req, res, next) {
+router.get('/config.html', function(req, res, next) {
     res.render('config');
 });
+
+router.get('/login.html', function(req, res, next) {
+    res.render('login');
+});
+
+router.get('/error.html', function(req, res, next) {
+    res.render('error');
+});
+
+router.get('/register.html', function(req, res, next) {
+    res.render('register');
+});
+
 module.exports = router;

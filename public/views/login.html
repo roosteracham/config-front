@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+</head>
+<body>
+<div id="hidebg"></div>
+<div class="header"></div>
+<div class="main" style="background:url(https://csdnimg.cn/passport/login-bg.png)">
+    <div class="container container-custom">
+        <div class="row wrap-login">
+            <div class="login-banner col-sm-6 col-md-7 col-lg-7 hidden-xs">
+                <a href="https://www.nju.edu.cn/" target="_blank">
+                    <img src="../images/png/njdxbdl.png" class="img-responsive">
+                </a>
+            </div>
+            <div class="login-user col-xs-12 col-sm-6 col-md-5 col-lg-5">
+                <div class="login-part">
+                    <h3>帐号登录</h3>
+                    <div class="user-info">
+                        <div class="user-pass">
+                            <form id="fm1" action="#" method="post" onsubmit="return login()">
+                                <input type="hidden">
+                                <input id="name" name="name" tabindex="1" placeholder="用户名"
+                                       class="user-name" type="text" value="">
+                                <input id="password" name="password" tabindex="2"
+                                       placeholder="输入密码" class="pass-word"
+                                       type="password" value="" autocomplete="off">
+                                <div class="error-mess" style="display:none;">
+                                    <span class="error-icon"></span><span></span>
+                                </div>
+                                <div class="row forget-password">
+                                    <a name="rememberMe" href="/register.html" value="true" class="auto-login"
+                                       tabindex="4">
+                                        <span class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <label for="rememberMe">没有账号，立即注册</label>
+                                        </span>
+                                    </a>
+
+                                </div>
+                                <button class="logging" value="登 录" tabindex="6" type="submit">登 录</button>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                    <div class="third-part tracking-ad" data-mod="popu_27">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="position:fixed; top:0; left:0; overflow:hidden;">
+    <input style="position:absolute; left:-300px;" type="text" value="" id="focus_retriever" readonly="true">
+</div>
+
+<link rel="stylesheet" href="../stylesheets/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../stylesheets/config.css">
+<script type="text/javascript" src="../javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="../javascripts/ajaxOption.js"></script>
+<script type="text/javascript" src="../javascripts/config.js"></script>
+</body>
+</html>

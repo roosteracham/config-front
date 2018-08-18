@@ -292,6 +292,7 @@ function updateColletion() {
         svgIndex : svgIndex
     };
 
+    // ajax请求
     ajaxOption(host + urls.addProject,
         'post',
         JSON.stringify(data),
@@ -306,10 +307,17 @@ function updateColletion() {
                 // 保存画面
                 saveSvg();
             } else {
+                if ('login' === JSON.parse(res['data'])['token']) {
+                    location = JSON.parse(res['data'])['location'];
+                    return;
+                }
                 alert("更新列表时，服务器出错，无法保存！")
             }
         }, function (err) {
             alert("更新列表出错，无法保存！");
+        },
+        function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
         }
         );
 }
@@ -340,6 +348,8 @@ function saveSvg() {
     };
 
     // 上传到服务器
+    // ajax请求
+
     ajaxOption(host + urls.exportProject,
         'post',
         JSON.stringify(data),
@@ -350,6 +360,9 @@ function saveSvg() {
             alert("保存成功！");
         }, function (res) {
             alert("保存出错！")
+        },
+        function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
         });
 }
 
@@ -481,7 +494,10 @@ $('#importProject').on('click', function () {
             "svgName" : svgName,
             "svg" : ""
         };
-        $.ajaxSetup({contentType : 'application/json; charset=utf-8'});
+        $.ajaxSetup({
+            contentType : 'application/json; charset=utf-8',
+            Authorization : sessionStorage.getItem("token")
+        });
         $.post(host + urls.importProject,
             JSON.stringify(data),
             function (res) {
@@ -504,6 +520,10 @@ function addMouseDownEventOnEle() {
 function generateSVG(data) {
 
     svg.clear();
+    if (data === null) {
+        alert("返回空画面");
+        return;
+    }
     bindPoints = {};
     // svg 放入sessionStorage
     sessionStorage.setItem('svg-' + projectName +

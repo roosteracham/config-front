@@ -12,6 +12,7 @@ $(function () {
     ajaxOption(host + urls.getProjects, 'post', '',
         function (res) {
 
+        if (res['success']) {
             var projects = JSON.parse(res['data']);
 
             for (let key in projects) {
@@ -52,9 +53,18 @@ $(function () {
             }
             getSvg(urls.importProject);
             //console.log('suc', res['data']);
+        } else {
+            if ('login' === JSON.parse(res['data'])['token']) {
+                location = JSON.parse(res['data'])['location'];
+            }
+        }
+
         },
-        function () {
+        function (err) {
             alert('初始化出错');
+        },
+        function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
         }
         );
 });
@@ -66,13 +76,22 @@ function getGroupEle(uri) {
         groupName : componentName
     };
 
+    // ajax请求
     ajaxOption(host + uri, 'post', JSON.stringify(data),
         function (res) {
-        var json = JSON.parse(res['data']);
+        if (res['success']) {
+            var json = JSON.parse(res['data']);
             sessionStorage.setItem('group-' + componentName, res['data']);
             svg.svg(jsonToSVGAsString(json));
             addMouseDownEventOnEle();
-        })
+        } else {
+            if ('login' === JSON.parse(res['data'])['token']) {
+                location = JSON.parse(res['data'])['location'];
+            }
+        }
+        }, null, function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
+        });
 }
 
 // 获取svg
@@ -84,15 +103,23 @@ function getSvg(uri) {
         index: svgIndex
     };
 
+    // ajax请求
     ajaxOption(host + uri, 'post',
         JSON.stringify(data), function (res) {
             if (res['success']) {
                 generateSVG(JSON.parse(res['data']));
             } else {
+                if ('login' === JSON.parse(res['data'])['token']) {
+                    location = JSON.parse(res['data'])['location'];
+                    return;
+                }
                 alert('请求成功，返回错误')
             }
-        }, function () {
+        }, function (err) {
             alert('error')
+        },
+        function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
         });
 }
 
@@ -147,7 +174,7 @@ var vm = new Vue({
             } else if (id.indexOf('group') > -1) {
                 componentName = attrs[1];
                 var item = sessionStorage.getItem('group-' + componentName);
-                if (typeof item !== "undefined" && item != null) {
+                if (typeof item !== "undefined" && item != null && item !== 'null') {
                     svg.svg(jsonToSVGAsString(JSON.parse(item)));
                     addMouseDownEventOnEle();
                 }else {
