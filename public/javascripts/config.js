@@ -1,8 +1,9 @@
-
+// 重置
 function empty(){
     $('input').val('');
 }
 
+// 注册
 function check() {
     var name = $('#name').val().trim();
     var email = $('#emailAddr').val().trim();
@@ -15,6 +16,8 @@ function check() {
         alert("用户名不能超过20个字符，请重新输入！");
     } else if (password !== password2) {
         alert("2次密码输入不一致！");
+    } else if (email.indexOf('@') < 0) {
+        alert('邮件格式错误！');
     } else{// 注册
         var data = {
             name : name,
@@ -27,7 +30,8 @@ function check() {
                 if (!res['success']) {
                     alert(res["data"]);
                 } else {
-                    location = res["data"];
+                    sessionStorage.setItem("emailAddr", JSON.parse(res['data'])['index']);
+                    location = JSON.parse(res['data'])['location'];
                 }
             }, function (err) {
 
@@ -36,6 +40,7 @@ function check() {
     return false;
 }
 
+// 登陆
 function login() {
     var name = $('#name').val().trim();
     var password = $('#password').val().trim();
@@ -60,4 +65,22 @@ function login() {
             });
     }
     return false;
+}
+
+function mailServer() {
+   var index = parseInt(sessionStorage.getItem('emailAddr'));
+   var emailServer = null;
+   switch (index) {
+       case 0 :
+           emailServer = 'https://mail.qq.com/';
+           break;
+       case 1 :
+           emailServer = 'https://email.163.com/';
+           break;
+       case 2 :
+           emailServer = 'https://outlook.live.com/';
+           break;
+   }
+   window.open(emailServer);
+   return false;
 }

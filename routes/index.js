@@ -22,4 +22,8 @@ router.get('/register.html', function(req, res, next) {
     res.render('register');
 });
 
+router.get('/emailSent.html', function(req, res, next) {
+    res.render('emailSent');
+});
+
 module.exports = router;
