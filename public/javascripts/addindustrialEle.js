@@ -172,17 +172,6 @@ $('#pipe').on('click', function (e) {
     myResize(rect);
 });
 
-function getGradient() {
-    if (svg !== null) {
-        var gradient = svg.gradient('linear', function(stop) {
-            stop.at(0, 'gray')
-            stop.at(0.8, 'white')
-            stop.at(1, 'gray')
-        });
-        return gradient;
-    }
-}
-
 // 新增灯
 $('#light').on('click', function (e) { 
     
@@ -267,8 +256,8 @@ $('#tank1').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 C 0 -30 70 -30  70 0 v 100 h -70 z';
-    let p = pathGraph(path, getGradient());
+    var path = 'M0 0 C 0 -30 70 -30  70 0 v 100 h -70 z';
+    var p = pathGraph(path, getGradient());
     myResize(p);
 });
 
@@ -277,8 +266,8 @@ $('#tank2').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 C 0 -30 70 -30  70 0 v 100 C 70 130 0 130 0 100 z';
-    let p = pathGraph(path, getGradient());
+    var path = 'M0 0 C 0 -30 70 -30  70 0 v 100 C 70 130 0 130 0 100 z';
+    var p = pathGraph(path, getGradient());
     myResize(p);
 });
 
@@ -287,8 +276,8 @@ $('#uPipe').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 h 50 v60 h 40 v -60 h 50 v 20 h -20 v 70 h -100 v -70 h -20 z';
-    let p = pathGraph(path, getGradient());
+    var path = 'M0 0 h 50 v60 h 40 v -60 h 50 v 20 h -20 v 70 h -100 v -70 h -20 z';
+    var p = pathGraph(path, getGradient());
     myResize(p);
 });
 
@@ -297,8 +286,8 @@ $('#tConnector').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 h 40 v 20 h 30 v 40 h -30 v 20 h -40 z';
-    let p = pathGraph(path, getGradient());
+    var path = 'M0 0 h 40 v 20 h 30 v 40 h -30 v 20 h -40 z';
+    var p = pathGraph(path, getGradient());
     myResize(p);
 });
 
@@ -307,8 +296,8 @@ $('#rightAngleConnector').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 h 40 v 25 h 25 v 40 h -65 z';
-    let p = pathGraph(path, getGradient());
+    var path = 'M0 0 h 40 v 25 h 25 v 40 h -65 z';
+    var p = pathGraph(path, getGradient());
     myResize(p);
 });
 
@@ -317,8 +306,8 @@ $('#roundConnector').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 h 40 C 40 20 60 20 60 20 v 40 C 60 60 0 60 0 0';
-    let p = pathGraph(path, getGradient());
+    var path = 'M0 0 h 40 C 40 20 60 20 60 20 v 40 C 60 60 0 60 0 0';
+    var p = pathGraph(path, getGradient());
     myResize(p);
 });
 
@@ -327,8 +316,8 @@ $('#crossConnector').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 h 40 v 20 h 20 v 40 h -20 v 20 h -40 v -20 h -20 v -40 h 20 z';
-    let p = pathGraph(path, getGradient());
+    var path = 'M0 0 h 40 v 20 h 20 v 40 h -20 v 20 h -40 v -20 h -20 v -40 h 20 z';
+    var p = pathGraph(path, getGradient());
     myResize(p);
 });
 
@@ -337,9 +326,9 @@ $('#valve').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 h 80 v 20 h -80 v -20 m 40 20' +
+    var path = 'M0 0 h 80 v 20 h -80 v -20 m 40 20' +
         ' v 30 h 5 v -30 h -5 m 0 30 l 40 20 v -40 l -80 40 v -40 l 40 20';
-    let p = pathGraph(path, getGradient());
+    var p = pathGraph(path, getGradient());
     myResize(p);
 });
 
@@ -348,9 +337,9 @@ $('#flabellum').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 h 60 C60 30 50 30 50 30 l -50 -30 v 60 C 0 60 -30 60 -30 50 l 30 -50 ' +
+    var path = 'M0 0 h 60 C60 30 50 30 50 30 l -50 -30 v 60 C 0 60 -30 60 -30 50 l 30 -50 ' +
         'h -60 C -60 -30 -50 -30 -50 -30 l 50 30 v -60 C 0 -60 30 -60 30 -50 l -30 50';
-    let p = pathGraph(path, getGradient());
+    var p = pathGraph(path, getGradient());
     myResize(p);
 });
 
@@ -370,8 +359,8 @@ $('#cap').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 h 20 m 0 -7.5 v 15 m 5 0 v -15 m 0 7.5 h 20';
-    let p = pathGraph(path, getGradient());
+    var path = 'M0 0 h 20 m 0 -7.5 v 15 m 5 0 v -15 m 0 7.5 h 20';
+    var p = pathGraph(path, getGradient());
     p.stroke({
         width : 4,
         color : 'black',
@@ -387,8 +376,8 @@ $('#Resistor').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 h 20 v -5 h25 v 10 h -25 v -10 m 25 5 h 20';
-    let p = svg.path(path);
+    var path = 'M0 0 h 20 v -5 h25 v 10 h -25 v -10 m 25 5 h 20';
+    var p = svg.path(path);
     p.fill('none')
         .stroke({
         width : 4,
@@ -405,8 +394,8 @@ $('#ground').on('click', function () {
     if (svgName === null || projectName === null) {
         return;
     }
-    let path = 'M0 0 v15 m -8 0 h 16 m -14 3 h 12 m -9 3 h 6';
-    let p = svg.path(path);
+    var path = 'M0 0 v15 m -8 0 h 16 m -14 3 h 12 m -9 3 h 6';
+    var p = svg.path(path);
     p.fill('none')
         .stroke({
             width : 2,

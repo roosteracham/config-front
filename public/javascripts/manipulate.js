@@ -304,7 +304,9 @@ var pointTypes = {
 };
 
 // 运行
-$('#point').on('click', function () {
+$('#point').on('click', monitoring);
+
+function monitoring() {
     //
     var data = '';
     for (var key in bindPoints) {
@@ -363,7 +365,7 @@ $('#point').on('click', function () {
         // 浏览器不支持 WebSocket
         console.log("您的浏览器不支持 WebSocket!");
     }
-});
+}
 
 $('#stop').on('click', function () {
     if (ws !== null) {

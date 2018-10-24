@@ -7,7 +7,7 @@
 </head>
 
 <body>
-
+<!--
 <div id="menu">
     <button id="newProject" >新建工程</button>
     <button id="newSvg" >新建画面</button>
@@ -45,7 +45,7 @@
     <button id="point" >运行</button>
     <button id="stop" >断开</button>
     <button id="realTimeTrend" >实时趋势</button>
-</div>
+</div>-->
 <div class="mycontainer">
     <div id="app" class="leftsidebar_box">
         <dl class="system_log" v-for="project in projects" :key="project.index">
@@ -55,7 +55,7 @@
                 {{ svg.name }}
             </dd>
         </dl>
-        <dl class="system_log">
+        <!--<dl class="system_log">
             <dt >基本图形<img src="../images/left/select_xl01.png"></dt>
             <dd class="st" id="line">直线</dd>
             <dd class="st" id="text">文本</dd>
@@ -68,8 +68,8 @@
             <dd class="st" id="pentagon">五边形</dd>
             <dd class="st" id="hexagon">六边形</dd>
             <dd class="st" id="octagon">八边形</dd>
-            <dd class="st" id="pentagram">五角星</dd><!--
-            <dd class="st" id="star">贝塞尔曲线</dd>-->
+            <dd class="st" id="pentagram">五角星</dd>&lt;!&ndash;
+            <dd class="st" id="star">贝塞尔曲线</dd>&ndash;&gt;
         </dl>
         <dl class="system_log">
             <dt >工控图形<img src="../images/left/select_xl01.png"></dt>
@@ -99,15 +99,13 @@
                  @click="c1">
                 {{ name }}
             </dd>
-        </dl>
+        </dl>-->
 
     </div>
 
     <div class="svg-container" id="svgContainer" style="position: relative; left: 15%;
     top:1%; width : 80%; height: 90%; background-color: lightgray; ">
     </div>
-    <!-- 属性详情 -->
-    <div></div>
 </div>
 
 <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css"/>
@@ -126,9 +124,9 @@
 <script type="text/javascript" src="../javascripts/ajaxOption.js"></script>
 <script type="text/javascript" src="../javascripts/test.js"></script>
 <script type="text/javascript" src="../javascripts/project.js"></script>
-<script type="text/javascript" src="../javascripts/myvue.js"></script>
 <script type="text/javascript" src="../javascripts/manipulate.js"></script>
 <script type="text/javascript" src="../javascripts/addindustrialEle.js"></script>
+<script type="text/javascript" src="../javascripts/runVue.js"></script>
 
 <!-- 模态框（Modal） 新建工程时弹出 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

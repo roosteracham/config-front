@@ -2,16 +2,6 @@ $(".leftsidebar_box dt").css({"background-color":"#3992d0"});
 
 $(".leftsidebar_box dt img").attr("src","../images/left/select_xl01.png");
 
-// 页面加载完之后才被调用
-$(function(){
-
-    $(".system_log dd").hide();
-
-    $(".system_log dt").on('click', clickToggle);
-
-    newSVG();
-});
-
 function clickToggle(e){
     // 原生点击事件的this和vue组件点击事件的this指示不一样的实例。
     // vue中的this指代vue实例

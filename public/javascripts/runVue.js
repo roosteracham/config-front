@@ -6,19 +6,18 @@ var projectOption = {
     components : 4
 };
 
-// 页面加载完之后才被调用
-$(function(){
+// 页面加载完成， 向服务器请求数据生成左侧导航
+$(function () {
 
     $(".system_log dd").hide();
 
     $(".system_log dt").on('click', clickToggle);
 
-    newSVG();
-});
+    //newSVG();
 
+    // 新建svg元素
+    svg = SVG("svgContainer").size("100%", "100%");
 
-// 页面加载完成， 向服务器请求数据生成左侧导航
-$(function () {
    // 请求工程
     ajaxOption(host + urls.getProjects, 'post', '',
         function (res) {
@@ -33,7 +32,7 @@ $(function () {
                             if (i === 0) {
                                 projectName = projects[key][0]['projectName'];
                             }
-                            vm.projects.push(projects[key][i]);
+                            runVM.projects.push(projects[key][i]);
                         }
                         break;
                     case projectOption.svgs :
@@ -42,23 +41,13 @@ $(function () {
                                 svgName = projects[key][0]['name'];
                                 svgIndex = projects[key][0]['index'];
                             }
-                            vm.svgs.push(projects[key][i]);
+                            runVM.svgs.push(projects[key][i]);
                         }
                         break;
-                    /*case projectOption.elementType :
-                        for (let i = 0; i < projects[key].length; i++) {
-                            vm.elementType.push(projects[key][i]);
-                        }
-                        break;
-                    case projectOption.elements :
-                        for (let i = 0; i < projects[key].length; i++) {
-                            vm.elements.push(projects[key][i]);
-                        }
-                        break;*/
                     case projectOption.components :
-                        for (let i = 0; i < projects[key].length; i++) {
-                            vm.components.push(projects[key][i]);
-                        }
+                        /*for (let i = 0; i < projects[key].length; i++) {
+                            runVM.components.push(projects[key][i]);
+                        }*/
                         break;
                 }
             }
@@ -81,32 +70,6 @@ $(function () {
         );
 });
 
-// 获取组件
-function getGroupEle(uri) {
-
-    var data = {
-        groupName : componentName
-    };
-
-    // ajax请求
-    ajaxOption(host + uri, 'post', JSON.stringify(data),
-        function (res) {
-        if (res['success']) {
-            var json = JSON.parse(res['data']);
-            sessionStorage.setItem('group-' + componentName, res['data']);
-            svg.svg(jsonToSVGAsString(json));
-            addMouseDownEventOnEle();
-        } else {
-            if ('login' === JSON.parse(res['data'])['token']) {
-                location = JSON.parse(res['data'])['location'];
-            }
-        }
-        }, null, function (xhr) {
-            xhr.setRequestHeader('Authorization',
-                'Basic ' + localStorage.getItem("token"));
-        });
-}
-
 // 获取svg
 function getSvg(uri) {
     var data = {
@@ -120,7 +83,11 @@ function getSvg(uri) {
     ajaxOption(host + uri, 'post',
         JSON.stringify(data), function (res) {
             if (res['success']) {
+                // 绘制第一幅画面
                 generateSVG(JSON.parse(res['data']));
+
+                // 运行
+                monitoring();
             } else {
                 if ('login' === JSON.parse(res['data'])['token']) {
                     location = JSON.parse(res['data'])['location'];
@@ -137,7 +104,7 @@ function getSvg(uri) {
         });
 }
 
-var vm = new Vue({
+var runVM = new Vue({
     el : '#app',
     data : {
         projects : [/*
@@ -185,7 +152,7 @@ var vm = new Vue({
                         getSvg(uri);
                     }
                 }
-            } else if (id.indexOf('group') > -1) {
+            } /*else if (id.indexOf('group') > -1) {
                 componentName = attrs[1];
                 var item = sessionStorage.getItem('group-' + componentName);
                 if (typeof item !== "undefined" && item != null && item !== 'null') {
@@ -197,7 +164,7 @@ var vm = new Vue({
                     // 从服务器请求数据或者本地寻找数据
                     getGroupEle(uri);
                 }
-            }
+            }*/
             e.stopPropagation()
             }
         }

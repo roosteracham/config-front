@@ -111,7 +111,7 @@ $(function () {
 
                 var selected = SVG.select('.selected');
                 // 解析为json对象
-                let json = SVGToJson(selected);
+                var json = SVGToJson(selected);
 
                 // 传入服务器
                 saveGroupedEle(JSON.stringify(json), name);
@@ -217,7 +217,7 @@ function getProjectIndex(project) {
         project = projectName;
 
     var projects = vm.projects;
-    for (let i = 0; i < projects.length; i++) {
+    for (var i = 0; i < projects.length; i++) {
         if (project === projects[i]['projectName'])
             return projects[i]['projectId'];
     }
@@ -227,7 +227,7 @@ function getProjectIndex(project) {
 // 画面是否存在
 function isSvgExistsInCollection(name, pName) {
     var svgs = vm.svgs;
-    for (let i = 0; i < svgs.length; i++) {
+    for (var i = 0; i < svgs.length; i++) {
         if (name === svgs[i]['name'] && pName === svgs[i]['projectName']) {
             return true;
         }
@@ -239,7 +239,7 @@ function isSvgExistsInCollection(name, pName) {
 // 组件是都存在
 function isComponentExists(name) {
     var components = vm.components;
-    for (let i = 0; i < components.length; i++) {
+    for (var i = 0; i < components.length; i++) {
         if (name === components[i])
             return true;
     }
@@ -324,7 +324,7 @@ function updateColletion() {
 
 // 数组中是否包含某元素
 function containsObject(array, o) {
-    for (let i = 0; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++) {
         if (o === array[i]['projectName'])
             return true;
     }
@@ -362,7 +362,8 @@ function saveSvg() {
             alert("保存出错！")
         },
         function (xhr) {
-            xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
+            xhr.setRequestHeader('Authorization',
+                'Basic ' + localStorage.getItem("token"));
         });
 }
 
@@ -379,14 +380,14 @@ $('#exportProject').on('click', function () {
 // 将svg字符串转为json对象
 function SVGToJson(eles) {
     var json = {};
-    for (let i = 0; i < eles.length(); i++) {
-        let ele = eles.get(i);
-        let attrs = ele.attr();
-        let eleName = ele.node.nodeName.toLocaleLowerCase();
+    for (var i = 0; i < eles.length(); i++) {
+        var ele = eles.get(i);
+        var attrs = ele.attr();
+        var eleName = ele.node.nodeName.toLocaleLowerCase();
         attrs['id'] = 'Svgjs' + eleName + uuid();
         var id = eleName + '#' + attrs['id'];
-        let data = {};
-        for (let key in attrs) {
+        var data = {};
+        for (var key in attrs) {
             data[key] = attrs[key];
         }
         if ('text' === eleName) {
@@ -407,17 +408,17 @@ var gradientId = [];
 
 // 将json对象拼接为svg字符串
 function jsonToSVGAsString(json) {
-    let svgString = '';
+    var svgString = '';
 
     // 遍历json对象
-    for (let key in json) {
-        let type = key.split('#')[0];
+    for (var key in json) {
+        var type = key.split('#')[0];
         svgString += '<' + type + ' ';
         var value = json[key];
 
         // 是否是文本元素， true的话添加元素的innerHTML为text对应的值
-        let hasTextAttr = false;
-        for (let attr in value) {
+        var hasTextAttr = false;
+        for (var attr in value) {
             if ('text' === attr) {
 
                 // text 不是属性， 标识文本元素
@@ -428,7 +429,7 @@ function jsonToSVGAsString(json) {
                 // children不是属性，标识组合元素
                 continue;
             else if ('fill' === attr) {
-                let fill = value[attr];
+                var fill = value[attr];
 
                 // 记录有渐变效果元素的id，之后单独渲染
                 if (fill.indexOf('url') > -1) {
@@ -454,14 +455,14 @@ function jsonToSVGAsString(json) {
 // 将组合中的各元素解析成json
 function groupedChildrenToJson(eles) {
     var json = {};
-    for (let i = 0; i < eles.length; i++) {
-        let ele = eles[i];
-        let attrs = ele.attr();
-        let eleName = ele.node.nodeName.toLocaleLowerCase();
+    for (var i = 0; i < eles.length; i++) {
+        var ele = eles[i];
+        var attrs = ele.attr();
+        var eleName = ele.node.nodeName.toLocaleLowerCase();
         attrs['id'] = 'Svgjs' + eleName + uuid();
         var id = eleName + '#' + attrs['id'];
-        let data = {};
-        for (let key in attrs) {
+        var data = {};
+        for (var key in attrs) {
             data[key] = attrs[key];
         }
         if ('text' === eleName) {
@@ -509,10 +510,21 @@ $('#importProject').on('click', function () {
 });
 
 function addMouseDownEventOnEle() {
-    let eles = getAllEles();
-    for (let i = 0; i < eles.length(); i++) {
-        let ele = eles.get(i);
+    var eles = getAllEles();
+    for (var i = 0; i < eles.length(); i++) {
+        var ele = eles.get(i);
         mousedownOnEle(ele);
+    }
+}
+
+function getGradient() {
+    if (svg !== null) {
+        var gradient = svg.gradient('linear', function(stop) {
+            stop.at(0, 'gray')
+            stop.at(0.8, 'white')
+            stop.at(1, 'gray')
+        });
+        return gradient;
     }
 }
 
@@ -538,7 +550,7 @@ function generateSVG(data) {
     addToBindPoints();
 
     // 如果gradient 则加入
-    for (let i = 0; i < gradientId.length; i++) {
+    for (var i = 0; i < gradientId.length; i++) {
         var id = gradientId[i];
         var ele = SVG.select('#' + id);
         if (ele.length() === 1) {
@@ -548,7 +560,7 @@ function generateSVG(data) {
     gradientId = [];
 
     // 为各元素添加鼠标按下事件， 鼠标按下事件不能通过svg来添加
-    addMouseDownEventOnEle();
+    //addMouseDownEventOnEle();
 }
 
 // 将导入的测点加入测点集合
@@ -612,21 +624,18 @@ $('#importSVG').on('click', function () {
 // 新建画面
 function newSVG() {
 
-        // 新建svg元素
-        svg = SVG("svgContainer").size("100%", "100%");
-        // 为svg添加点击事件， 点击非图形元素时取消选中效果
-        svg.click(clickNonEleToClear);
+    // 新建svg元素
+    svg = SVG("svgContainer").size("100%", "100%");
+    // 为svg添加点击事件， 点击非图形元素时取消选中效果, 点击图形元素被选中
+    svg.click(clickNonEleToClear);
 
-        //svg 添加鼠标按下事件
-        svg.mousedown(mousedownOnNonEle);
+    //svg 添加鼠标按下事件
+    svg.mousedown(mousedownOnNonEle);
 
-        //svg 添加鼠标弹起事件
-        svg.mouseup(mouseupOnSVG);
+    //svg 添加鼠标弹起事件
+    svg.mouseup(mouseupOnSVG);
 
-        //svg 添加鼠标移动事件
-        svg.mousemove(mouseoverOnSVG);
-
-        // 放到sessionStorage 里面
-        //loc
+    //svg 添加鼠标移动事件
+    svg.mousemove(mouseoverOnSVG);
     return svg;
 }
