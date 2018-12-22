@@ -30,4 +30,8 @@ router.get('/emailSent.html', function(req, res, next) {
     res.render('emailSent');
 });
 
+router.get('/realTimeTrend.html', function(req, res, next) {
+    res.render('realTimeTrend');
+});
+
 module.exports = router;

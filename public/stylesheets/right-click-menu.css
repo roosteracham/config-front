@@ -1,0 +1,62 @@
+.right-click-menu-mask{
+    position: fixed;
+    width: 100000px;
+    height: 100000px;
+    z-index: 99998;
+    top:0;
+    left: 0;
+}
+.right-click-menu-wrap *{
+    font-size: 12px;
+    box-sizing: border-box;
+}
+.right-click-menu-wrap{
+    width:130px;
+    position: fixed;
+    border:1px solid #dadada;
+    box-shadow: 3px 3px 3px #dadada;
+    cursor: default;
+    user-select: none;
+    z-index: 99999;
+}
+.right-click-menu-item{
+    height: 30px;
+    line-height: 30px;
+    padding:0 20px;
+    width:100%;
+}
+.right-click-menu-item.hr{
+    height: 0;
+    margin: 10px 0;
+    border-bottom:1px solid #dadada;
+}
+.right-click-menu-item div{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+}
+right-click-menu-item.disable .right-click-menu-item-title{
+    color: #aaaaaa;
+}
+.right-click-menu-item.enable:hover{
+    background: #eee;
+}
+.right-click-menu-item-title{
+    float: left;
+    line-height: 30px;
+    width: 60%;
+}
+.right-click-menu-item-tips{
+    float: right;
+    line-height: 30px;
+    width: 40%;
+    text-align: right;
+}
+.right-click-menu-item:after{
+    content:".";
+    clear:both;
+    display:block;
+    height:0;
+    overflow:hidden;
+    visibility:hidden;
+}

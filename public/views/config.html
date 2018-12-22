@@ -8,6 +8,7 @@
 
 <body>
 
+<!--图形操作-->
 <div id="menu">
     <button id="newProject" >新建工程</button>
     <button id="newSvg" >新建画面</button>
@@ -15,12 +16,7 @@
     <button id="importProject" >导入工程</button>
     <button id="deleteSvg" >删除画面</button>
     <button id="clearElements" >清空元素</button>
-    <button id="deleteEle" >删除元素</button>
-    <button id="groupEle" >组合元素</button>
-    <button id="unGroup" >取消组合</button>
-    <button id="copyEle" >复制元素</button>
-    <button id="saveGroup" >保存组件</button>
-    <button id="modifyText" >修改文本</button>
+    <button id="saveGroup" >保存组件</button><!--
     <button id="rotateLeft_90" >左旋90°</button>
     <button id="rotateRight_90" >右旋90°</button>
     <button id="rotateLeft_45" >左旋45°</button>
@@ -30,7 +26,7 @@
     <button id="backLayer" >置底层</button>
     <button id="frontLayer" >置顶层</button>
     <button id="backwardLayer" >向下一层</button>
-    <button id="forwardLayer" >向上一层</button>
+    <button id="forwardLayer" >向上一层</button>-->
     <button id="alignRight" >右对齐</button>
     <button id="alignLeft" >左对齐</button>
     <button id="alignTop" >上对齐</button>
@@ -41,11 +37,12 @@
         <input id="colorPicker" class="jscolor" value="ab2567" hidden="hidden" />
         填充颜色
     </button>
-    <button id="bindPoint" >绑定测点</button>
     <button id="point" >运行</button>
-    <button id="stop" >断开</button>
-    <button id="realTimeTrend" >实时趋势</button>
+    <button id="stop" >断开</button><!--
+    <button id="realTimeTrend" >实时趋势</button>-->
 </div>
+
+<!--图形容器-->
 <div class="mycontainer">
     <div id="app" class="leftsidebar_box">
         <dl class="system_log" v-for="project in projects" :key="project.index">
@@ -110,11 +107,14 @@
     <div></div>
 </div>
 
+
 <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="../stylesheets/svg.select.css"/>
 <link rel="stylesheet" type="text/css" href="../stylesheets/test.css"/>
+<link rel="stylesheet" type="text/css" href="../stylesheets/right-click-menu.css" />
 
 <script type="text/javascript" src="../javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="../javascripts/right-click-menu.js" ></script>
 <script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../javascripts/svg.js"></script>
 <script type="text/javascript" src="../javascripts/svg.draggable.js"></script>
@@ -122,16 +122,16 @@
 <script type="text/javascript" src="../javascripts/svg.resize.js"></script>
 <script type="text/javascript" src="../javascripts/svg.path.js"></script>
 <script type="text/javascript" src="../javascripts/jscolor.js"></script>
-
 <script type="text/javascript" src="../javascripts/ajaxOption.js"></script>
 <script type="text/javascript" src="../javascripts/test.js"></script>
-<script type="text/javascript" src="../javascripts/project.js"></script>
 <script type="text/javascript" src="../javascripts/myvue.js"></script>
-<script type="text/javascript" src="../javascripts/manipulate.js"></script>
+<script type="text/javascript" src="../javascripts/project.js"></script><!--
+<script type="text/javascript" src="../javascripts/manipulate.js"></script>-->
 <script type="text/javascript" src="../javascripts/addindustrialEle.js"></script>
 
 <!-- 模态框（Modal） 新建工程时弹出 -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -157,7 +157,8 @@
 </div>
 
 <!-- 模态框（Modal） 绑定测点时弹出 -->
-<div class="modal fade" id="myBindPointModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myBindPointModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

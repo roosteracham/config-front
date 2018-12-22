@@ -50,23 +50,26 @@ function saveGroupedEle(json, name) {
 }
 
 // 选中删除元素
-$("#deleteEle").on("click", function () {
-    var del = SVG.select('.selected');
-    for (var i = 0; i < del.length(); i++) {
-        var o = del.get(i);
-        if (isSVGElementByClass(o)) {
-            o.selectize(false)
-                .resize('stop');
+$("#deleteEle").on("click", deleteEle);
 
-            // 如果没有其他关联相同测点的图形，则把测点从测点集合中删除
-            deleteFromBindPoint(o);
+function delElement() {
+    /*
+        var del = SVG.select('.selected');
+        for (var i = 0; i < del.length(); i++) {
+            var o = del.get(i);
+            if (isSVGElementByClass(o)) {
+                o.selectize(false)
+                    .resize('stop');
 
-            // 删除图形
-            o.remove();
-        }
-    }
+                // 如果没有其他关联相同测点的图形，则把测点从测点集合中删除
+                deleteFromBindPoint(o);
 
-});
+                // 删除图形
+                o.remove();
+            }
+        }*/
+    console.log("asdas");
+}
 
 // 从测点集合中删除测点
 function deleteFromBindPoint(o) {

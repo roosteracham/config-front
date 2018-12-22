@@ -385,6 +385,7 @@ function mousedownOnEle(o) {
 function mouseupOnEle(o) {
     o.mouseup(mouseupOnSVG);
 }
+
 // 点击选中
 function selectClickedEle(o) {
     o.click(selectClicked(o));

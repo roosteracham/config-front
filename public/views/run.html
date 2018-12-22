@@ -2,50 +2,11 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>组态</title>
+    <title>运行</title>
     <script type="text/javascript" src="../javascripts/vue.js"></script>
 </head>
 
 <body>
-<!--
-<div id="menu">
-    <button id="newProject" >新建工程</button>
-    <button id="newSvg" >新建画面</button>
-    <button id="exportProject" >保存工程</button>
-    <button id="importProject" >导入工程</button>
-    <button id="deleteSvg" >删除画面</button>
-    <button id="clearElements" >清空元素</button>
-    <button id="deleteEle" >删除元素</button>
-    <button id="groupEle" >组合元素</button>
-    <button id="unGroup" >取消组合</button>
-    <button id="copyEle" >复制元素</button>
-    <button id="saveGroup" >保存组件</button>
-    <button id="modifyText" >修改文本</button>
-    <button id="rotateLeft_90" >左旋90°</button>
-    <button id="rotateRight_90" >右旋90°</button>
-    <button id="rotateLeft_45" >左旋45°</button>
-    <button id="rotateRight_45" >右旋45°</button>
-    <button id="rotateLeft_30" >左旋30°</button>
-    <button id="rotateRight_30" >右旋30°</button>
-    <button id="backLayer" >置底层</button>
-    <button id="frontLayer" >置顶层</button>
-    <button id="backwardLayer" >向下一层</button>
-    <button id="forwardLayer" >向上一层</button>
-    <button id="alignRight" >右对齐</button>
-    <button id="alignLeft" >左对齐</button>
-    <button id="alignTop" >上对齐</button>
-    <button id="alignBottom" >下对齐</button>
-    <button id="importSVG" >导入图形</button>
-    <button id="exportSVG" >导出图形</button>
-    <button id="changeColor" >
-        <input id="colorPicker" class="jscolor" value="ab2567" hidden="hidden" />
-        填充颜色
-    </button>
-    <button id="bindPoint" >绑定测点</button>
-    <button id="point" >运行</button>
-    <button id="stop" >断开</button>
-    <button id="realTimeTrend" >实时趋势</button>
-</div>-->
 <div class="mycontainer">
     <div id="app" class="leftsidebar_box">
         <dl class="system_log" v-for="project in projects" :key="project.index">
@@ -55,55 +16,9 @@
                 {{ svg.name }}
             </dd>
         </dl>
-        <!--<dl class="system_log">
-            <dt >基本图形<img src="../images/left/select_xl01.png"></dt>
-            <dd class="st" id="line">直线</dd>
-            <dd class="st" id="text">文本</dd>
-            <dd class="st" id="rect">矩形</dd>
-            <dd class="st" id="circle">圆形</dd>
-            <dd class="st" id="ellipse">椭圆</dd>
-            <dd class="st" id="tangle">三角形</dd>
-            <dd class="st" id="roundRect">圆角矩形</dd>
-            <dd class="st" id="trapezoid">梯形</dd>
-            <dd class="st" id="pentagon">五边形</dd>
-            <dd class="st" id="hexagon">六边形</dd>
-            <dd class="st" id="octagon">八边形</dd>
-            <dd class="st" id="pentagram">五角星</dd>&lt;!&ndash;
-            <dd class="st" id="star">贝塞尔曲线</dd>&ndash;&gt;
-        </dl>
-        <dl class="system_log">
-            <dt >工控图形<img src="../images/left/select_xl01.png"></dt>
-            <dd class="st" id="tank1">原料罐1</dd>
-            <dd class="st" id="tank2">原料罐2</dd>
-            <dd class="st" id="light">灯</dd>
-            <dd class="st" id="flabellum">扇叶片</dd>
-            <dd class="st" id="pipe">管道</dd>
-            <dd class="st" id="uPipe">U形管道</dd>
-            <dd class="st" id="rightAngleConnector">直角接头</dd>
-            <dd class="st" id="roundConnector">圆形接头</dd>
-            <dd class="st" id="tConnector">T型接头</dd>
-            <dd class="st" id="crossConnector">十字型接头</dd>
-            <dd class="st" id="pump">泵</dd>
-            <dd class="st" id="valve">阀门</dd>
-        </dl>
-        <dl class="system_log">
-            <dt >电子元件<img src="../images/left/select_xl01.png"></dt>
-            <dd class="st" id="cap">电容</dd>
-            <dd class="st" id="Resistor">电阻</dd>
-            <dd class="st" id="ground">接地</dd>
-        </dl>
-        <dl class="system_log" >
-            <dt v-once >自定义组件<img ></dt>
-            <dd  class="st menu_chioce" v-for="(name, index) in components" :key="index"
-                 :id="'group-' + name"
-                 @click="c1">
-                {{ name }}
-            </dd>
-        </dl>-->
-
     </div>
 
-    <div class="svg-container" id="svgContainer" style="position: relative; left: 15%;
+    <div class="svg-container run-rb" id="svgContainer" style="position: relative; left: 15%;
     top:1%; width : 80%; height: 90%; background-color: lightgray; ">
     </div>
 </div>
@@ -111,58 +26,36 @@
 <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="../stylesheets/svg.select.css"/>
 <link rel="stylesheet" type="text/css" href="../stylesheets/test.css"/>
+<link rel="stylesheet" type="text/css" href="../stylesheets/right-click-menu.css"/>
 
 <script type="text/javascript" src="../javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="../javascripts/right-click-menu.js" ></script>
 <script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../javascripts/svg.js"></script>
 <script type="text/javascript" src="../javascripts/svg.draggable.js"></script>
-<script type="text/javascript" src="../javascripts/svg.select.js"></script>
 <script type="text/javascript" src="../javascripts/svg.resize.js"></script>
+<script type="text/javascript" src="../javascripts/svg.select.js"></script>
 <script type="text/javascript" src="../javascripts/svg.path.js"></script>
 <script type="text/javascript" src="../javascripts/jscolor.js"></script>
 
 <script type="text/javascript" src="../javascripts/ajaxOption.js"></script>
 <script type="text/javascript" src="../javascripts/test.js"></script>
-<script type="text/javascript" src="../javascripts/project.js"></script>
-<script type="text/javascript" src="../javascripts/manipulate.js"></script>
+<script type="text/javascript" src="../javascripts/project.js"></script><!--
+<script type="text/javascript" src="../javascripts/manipulate.js"></script>-->
 <script type="text/javascript" src="../javascripts/addindustrialEle.js"></script>
-<script type="text/javascript" src="../javascripts/runVue.js"></script>
-
-<!-- 模态框（Modal） 新建工程时弹出 -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    模态框（Modal）标题
-                </h4>
-            </div>
-            <div id="modal" class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消
-                </button>
-                <button id="confirmNewPro" type="button" class="btn btn-primary" >
-                    确认
-                </button>
-                <!--<input type="button" value="首页" id="confirmNewPro" class="btn btn-default" />-->
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
+<script type="text/javascript" src="../javascripts/runVue.js"></script><!--
+<script type="text/javascript" src="../javascripts/RBClick.js"></script>-->
 
 <!-- 模态框（Modal） 绑定测点时弹出 -->
-<div class="modal fade" id="myBindPointModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myBindedPointModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
-                <h4 class="modal-title" id="myBindPointModalLabel">
+                <h4 class="modal-title" id="myBindedPointModalLabel">
                     模态框（Modal）标题
                 </h4>
             </div>
@@ -184,10 +77,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消
                 </button>
-                <button id="confirmBindPoint" type="button" class="btn btn-primary" >
-                    确认
-                </button>
-                <!--<input type="button" value="首页" id="confirmNewPro" class="btn btn-default" />-->
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
