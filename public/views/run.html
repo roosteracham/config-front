@@ -8,7 +8,7 @@
 
 <body>
 <div class="mycontainer">
-    <div id="app" class="leftsidebar_box">
+    <div id="app" class="leftsidebar_box" style="height: 90%">
         <dl class="system_log" v-for="project in projects" :key="project.index">
             <dt v-once @click="dtClick">{{project.projectName}}<img ></dt>
             <dd  class="st menu_chioce" v-for="svg in svgs" :id="svg.id" :key="svg.index"
@@ -18,7 +18,7 @@
         </dl>
     </div>
 
-    <div class="svg-container run-rb" id="svgContainer" style="position: relative; left: 15%;
+    <div class="svg-container run-rb" id="svgContainer" style="position: relative; left: 17%;
     top:1%; width : 80%; height: 90%; background-color: lightgray; ">
     </div>
 </div>
@@ -43,8 +43,7 @@
 <script type="text/javascript" src="../javascripts/project.js"></script><!--
 <script type="text/javascript" src="../javascripts/manipulate.js"></script>-->
 <script type="text/javascript" src="../javascripts/addindustrialEle.js"></script>
-<script type="text/javascript" src="../javascripts/runVue.js"></script><!--
-<script type="text/javascript" src="../javascripts/RBClick.js"></script>-->
+<script type="text/javascript" src="../javascripts/runVue.js"></script>
 
 <!-- 模态框（Modal） 绑定测点时弹出 -->
 <div class="modal fade" id="myBindedPointModal" tabindex="-1" role="dialog"

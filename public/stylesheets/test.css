@@ -9,10 +9,12 @@ html, body {
 img {
     border:none;
 }
+
 * {
     font-family:'微软雅黑';
     color:#626262;
 }
+
 dl,dt,dd {
     display:block;
     margin:0;}
@@ -32,18 +34,21 @@ a {
 
 /*left*/
 .leftsidebar_box {
-    width:160px;
-    height:auto !important;
+    width:14%;
     overflow:visible !important;
     position:fixed;
-    height:100% !important;
-    background-color:#3992d0;}
+    background-color:#3992d0;
+    top: 1%;
+    left: 1%;
+}
+
 .line {
     height:2px;
     width:100%;
     background-image:url(../images/left/line_bg.png);
     background-repeat:repeat-x;
 }
+
 .leftsidebar_box dt {
     padding-left:40px;
     padding-right:10px;
@@ -112,5 +117,10 @@ a {
 }
 
 .svg_select_boundingRect {
-    fill : 'none';
+    fill : none;
+}
+
+#menu {
+    left: 17%;
+    position: relative;
 }

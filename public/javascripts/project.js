@@ -377,7 +377,7 @@ function newPro(e) {
 $("#newSvg").on("click", function (e) {
 
     // id 被点击按钮的id
-    id = e.target.id;
+    id = eventTarget.newSvg;
 
     // 去除所有选中效果
     clearAllSelected();

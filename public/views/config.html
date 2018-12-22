@@ -8,52 +8,18 @@
 
 <body>
 
-<!--图形操作-->
-<div id="menu">
-    <button id="newProject" >新建工程</button>
-    <button id="newSvg" >新建画面</button>
-    <button id="exportProject" >保存工程</button>
-    <button id="importProject" >导入工程</button>
-    <button id="deleteSvg" >删除画面</button>
-    <button id="clearElements" >清空元素</button>
-    <button id="saveGroup" >保存组件</button><!--
-    <button id="rotateLeft_90" >左旋90°</button>
-    <button id="rotateRight_90" >右旋90°</button>
-    <button id="rotateLeft_45" >左旋45°</button>
-    <button id="rotateRight_45" >右旋45°</button>
-    <button id="rotateLeft_30" >左旋30°</button>
-    <button id="rotateRight_30" >右旋30°</button>
-    <button id="backLayer" >置底层</button>
-    <button id="frontLayer" >置顶层</button>
-    <button id="backwardLayer" >向下一层</button>
-    <button id="forwardLayer" >向上一层</button>-->
-    <button id="alignRight" >右对齐</button>
-    <button id="alignLeft" >左对齐</button>
-    <button id="alignTop" >上对齐</button>
-    <button id="alignBottom" >下对齐</button>
-    <button id="importSVG" >导入图形</button>
-    <button id="exportSVG" >导出图形</button>
-    <button id="changeColor" >
-        <input id="colorPicker" class="jscolor" value="ab2567" hidden="hidden" />
-        填充颜色
-    </button>
-    <button id="point" >运行</button>
-    <button id="stop" >断开</button><!--
-    <button id="realTimeTrend" >实时趋势</button>-->
-</div>
-
 <!--图形容器-->
 <div class="mycontainer">
-    <div id="app" class="leftsidebar_box">
+    <div id="app" class="leftsidebar_box" style="height: 100%">
         <dl class="system_log" v-for="project in projects" :key="project.index">
-            <dt v-once @click="dtClick">{{project.projectName}}<img ></dt>
-            <dd  class="st menu_chioce" v-for="svg in svgs" :id="svg.id" :key="svg.index"
-                 v-if="svg.projectName == project.projectName" @click="c1">
+            <dt v-once @click="dtClick">{{project.projectName}}<img></dt>
+            <dd class="st menu_chioce" v-for="svg in svgs" :id="svg.id" :key="svg.index"
+                v-if="svg.projectName == project.projectName" @click="c1">
                 {{ svg.name }}
             </dd>
         </dl>
         <dl class="system_log">
-            <dt >基本图形<img src="../images/left/select_xl01.png"></dt>
+            <dt>基本图形<img src="../images/left/select_xl01.png"></dt>
             <dd class="st" id="line">直线</dd>
             <dd class="st" id="text">文本</dd>
             <dd class="st" id="rect">矩形</dd>
@@ -69,7 +35,7 @@
             <dd class="st" id="star">贝塞尔曲线</dd>-->
         </dl>
         <dl class="system_log">
-            <dt >工控图形<img src="../images/left/select_xl01.png"></dt>
+            <dt>工控图形<img src="../images/left/select_xl01.png"></dt>
             <dd class="st" id="tank1">原料罐1</dd>
             <dd class="st" id="tank2">原料罐2</dd>
             <dd class="st" id="light">灯</dd>
@@ -84,37 +50,117 @@
             <dd class="st" id="valve">阀门</dd>
         </dl>
         <dl class="system_log">
-            <dt >电子元件<img src="../images/left/select_xl01.png"></dt>
+            <dt>电子元件<img src="../images/left/select_xl01.png"></dt>
             <dd class="st" id="cap">电容</dd>
             <dd class="st" id="Resistor">电阻</dd>
             <dd class="st" id="ground">接地</dd>
         </dl>
-        <dl class="system_log" >
-            <dt v-once >自定义组件<img ></dt>
-            <dd  class="st menu_chioce" v-for="(name, index) in components" :key="index"
-                 :id="'group-' + name"
-                 @click="c1">
+        <dl class="system_log">
+            <dt v-once>自定义组件<img></dt>
+            <dd class="st menu_chioce" v-for="(name, index) in components" :key="index"
+                :id="'group-' + name"
+                @click="c1">
                 {{ name }}
             </dd>
         </dl>
 
     </div>
 
-    <div class="svg-container" id="svgContainer" style="position: relative; left: 15%;
+    <div>
+        <!--图形操作-->
+        <div id="menu">
+            <button id="newProject" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_add.png" data-toggle="tooltip"
+                     data-placement="bottom" title="新建工程">
+            </button>
+            <button id="newSvg" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_new.png" data-toggle="tooltip"
+                     data-placement="bottom" title="新建画面">
+            </button>
+            <button id="exportProject" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_save.png" data-toggle="tooltip"
+                     data-placement="bottom" title="保存画面">
+            </button><!--
+            <button id="importProject" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_add.png" data-toggle="tooltip"
+                     data-placement="bottom" title="导入工程">
+            </button>-->
+            <button id="deleteSvg" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_cancel.png" data-toggle="tooltip"
+                     data-placement="bottom" title="删除画面">
+            </button>
+            <button id="clearElements" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_clear.png" data-toggle="tooltip"
+                     data-placement="bottom" title="清空元素">
+            </button><!--
+            <button id="saveGroup" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_add.png" data-toggle="tooltip"
+                     data-placement="bottom" title="保存组件">
+            </button>-->
+            <!--
+    <button id="rotateLeft_90" >左旋90°</button>
+    <button id="rotateRight_90" >右旋90°</button>
+    <button id="rotateLeft_45" >左旋45°</button>
+    <button id="rotateRight_45" >右旋45°</button>
+    <button id="rotateLeft_30" >左旋30°</button>
+    <button id="rotateRight_30" >右旋30°</button>
+    <button id="backLayer" >置底层</button>
+    <button id="frontLayer" >置顶层</button>
+    <button id="backwardLayer" >向下一层</button>
+    <button id="forwardLayer" >向上一层</button>-->
+
+            <button id="alignRight" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_align-right.png" data-toggle="tooltip"
+                     data-placement="bottom" title="右对齐">
+            </button>
+            <button id="alignLeft" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_align-left.png" data-toggle="tooltip"
+                     data-placement="bottom" title="左对齐">
+            </button>
+            <button id="alignTop" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_align-top.png" data-toggle="tooltip"
+                     data-placement="bottom" title="上对齐">
+            </button>
+            <button id="alignBottom" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_align-bottom.png" data-toggle="tooltip"
+                     data-placement="bottom" title="下对齐">
+            </button><!--
+            <button id="importSVG" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_add.png" data-toggle="tooltip"
+                     data-placement="bottom" title="导入图形">
+            </button>
+            <button id="exportSVG" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_add.png" data-toggle="tooltip"
+                     data-placement="bottom" title="导出图形">
+            </button>-->
+            <button id="changeColor" class="btn btn-default">
+            <img class="icon-size" src="../images/png/icon_fontcolor.png" data-toggle="tooltip"
+                 data-placement="bottom" title="填充颜色">
+                <input id="colorPicker" class="jscolor" value="ab2567" hidden="hidden"/>
+            </button><!--
+            <button id="point" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_add.png" data-toggle="tooltip"
+                     data-placement="bottom" title="运行">
+            </button>
+            <button id="stop" class="btn btn-default">
+                <img class="icon-size" src="../images/png/icon_add.png" data-toggle="tooltip"
+                     data-placement="bottom" title="断开">
+            </button>-->
+        </div>
+        <div class="svg-container" id="svgContainer" style="position: relative; left: 17%;
     top:1%; width : 80%; height: 90%; background-color: lightgray; ">
+        </div>
     </div>
-    <!-- 属性详情 -->
-    <div></div>
 </div>
 
 
 <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="../stylesheets/svg.select.css"/>
 <link rel="stylesheet" type="text/css" href="../stylesheets/test.css"/>
-<link rel="stylesheet" type="text/css" href="../stylesheets/right-click-menu.css" />
+<link rel="stylesheet" type="text/css" href="../stylesheets/right-click-menu.css"/>
 
 <script type="text/javascript" src="../javascripts/jquery.min.js"></script>
-<script type="text/javascript" src="../javascripts/right-click-menu.js" ></script>
+<script type="text/javascript" src="../javascripts/right-click-menu.js"></script>
 <script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../javascripts/svg.js"></script>
 <script type="text/javascript" src="../javascripts/svg.draggable.js"></script>
@@ -147,7 +193,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消
                 </button>
-                <button id="confirmNewPro" type="button" class="btn btn-primary" >
+                <button id="confirmNewPro" type="button" class="btn btn-primary">
                     确认
                 </button>
                 <!--<input type="button" value="首页" id="confirmNewPro" class="btn btn-default" />-->
@@ -176,7 +222,7 @@
                 <select id="pointType">
                     <option value="number" selected="selected">数值</option>
                     <option value="liquidLevel">液位</option>
-                    <option value="switch" >开关</option>
+                    <option value="switch">开关</option>
                 </select>
 
                 <span>测点名</span>
@@ -187,7 +233,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消
                 </button>
-                <button id="confirmBindPoint" type="button" class="btn btn-primary" >
+                <button id="confirmBindPoint" type="button" class="btn btn-primary">
                     确认
                 </button>
                 <!--<input type="button" value="首页" id="confirmNewPro" class="btn btn-default" />-->
