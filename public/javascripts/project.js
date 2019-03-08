@@ -955,7 +955,7 @@ function monitoring() {
         //var eles = SVG.select("[class^='.bindPoint_']");
 
         if (ws === null) {
-            var url = 'ws://localhost:8888/zutai/dev/myHandler';
+            var url = 'ws://localhost:8888/ssm/myHandler';
             ws = createNewWS(url);
         }
 
@@ -969,7 +969,7 @@ function monitoring() {
 
         ws.onmessage = function (evt) {
             var received_msg = JSON.parse(evt.data);
-            localStorage.setItem('received_msg', JSON.stringify(received_msg));
+            //localStorage.setItem('received_msg', JSON.stringify(received_msg));
             //ele.node.firstChild.textContent = received_msg;
 
             // 更新绑定该测点的所有图形
@@ -988,8 +988,7 @@ function monitoring() {
                     updateDataOnEle(ele, d);
                 }
             }
-            // 更新图形
-            console.log("数据已接收 : " + received_msg);
+            //console.log("数据已接收 : " + received_msg);
         };
 
         ws.onclose = function () {
@@ -1275,9 +1274,13 @@ function bindPoint() {
             pointType = descs[1];
             pointDesc = descs[0];
 
-            // show 模态框
-            $('#myBindPointModal').modal('show');
+        } else {
+            pointName = '';w
+            pointType = '';
+            pointDesc = '';
         }
+        // show 模态框
+        $('#myBindPointModal').modal('show');
     }
 }
 

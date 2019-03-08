@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
+app.listen(3000);
 // view engine setup
 app.set('views', path.join(__dirname, 'public/views'));
 app.engine('html', ejs.__express);
