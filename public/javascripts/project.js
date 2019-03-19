@@ -734,7 +734,8 @@ $('#importSVG').on('click', function () {
 function newSVG() {
 
     // 新建svg元素
-    svg = SVG("svgContainer").size("100%", "100%");
+    svg = SVG("svgContainer")
+        .size("100%", "100%");
 
     // 为svg添加点击事件， 点击非图形元素时取消选中效果, 点击图形元素被选中
     svg.click(clickNonEleToClear);
@@ -955,7 +956,7 @@ function monitoring() {
         //var eles = SVG.select("[class^='.bindPoint_']");
 
         if (ws === null) {
-            var url = 'ws://localhost:8888/ssm/myHandler';
+            var url = 'ws://172.21.18.212/zutai/dev/myHandler';
             ws = createNewWS(url);
         }
 
@@ -964,12 +965,12 @@ function monitoring() {
             //req.setHeader("Authorization", localStorage.getItem("token"));
             ws.send(data);
             // Web Socket 已连接上，使用 send() 方法发送数据
-            console.log("数据发送中...");
+            console.log("数据已发送");
         };
 
         ws.onmessage = function (evt) {
             var received_msg = JSON.parse(evt.data);
-            //localStorage.setItem('received_msg', JSON.stringify(received_msg));
+            localStorage.setItem('received_msg', JSON.stringify(received_msg));
             //ele.node.firstChild.textContent = received_msg;
 
             // 更新绑定该测点的所有图形
@@ -1275,7 +1276,7 @@ function bindPoint() {
             pointDesc = descs[0];
 
         } else {
-            pointName = '';w
+            pointName = '';
             pointType = '';
             pointDesc = '';
         }
@@ -1427,7 +1428,7 @@ function realTimeTrend() {
 
         // 打开实时趋势选项卡
         if (point !== null && point !== '') {
-            window.open('http://localhost/realTimeTrend.html?key=' + point + '&');
+            window.open('http://172.21.18.212/realTimeTrend.html?key=' + point + '&');
         } else {
             alert('图形未绑定测点！');
         }
@@ -1513,4 +1514,15 @@ function eleDetail(){
             alert('图形未绑定测点！');
         }
     }
+}
+
+var cw = -1;
+
+function svgZoom() {
+    var cwn = $('#svgContainer')[0].clientWidth;
+    var ratio = 1;
+    if (cw !== -1) {
+        ratio = cwn / cw;
+    }
+    return ratio;
 }

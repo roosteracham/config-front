@@ -10,6 +10,10 @@ router.get('/config.html', function(req, res, next) {
     res.render('config');
 });
 
+router.get('/manager.html', function(req, res, next) {
+    res.render('manager');
+});
+
 router.get('/run.html', function(req, res, next) {
     res.render('run');
 });

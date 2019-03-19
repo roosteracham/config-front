@@ -58,6 +58,7 @@ function login() {
             function (res) {
                 if (res['success']) {
                     localStorage.setItem("token", JSON.parse(res['data'])['token']);
+                    localStorage.setItem("role", JSON.parse(res['data'])['role']);
                     location = JSON.parse(res['data'])['location'];
                 } else {
                     alert(res['data']);

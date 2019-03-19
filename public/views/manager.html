@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组态监控</title>
+</head>
+<body>
+    <div>
+        <div id="manager">
+        <button type="button" class="btn btn-default btn-lg btn-block"
+                v-on:click="ztjk">组态监控</button>
+            <button type="button" class="btn btn-default btn-lg btn-block"
+                    v-if="role" v-on:click="zthz">组态绘制</button>
+        </div>
+    </div>
+</body>
+<link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css"/>
+<style>
+    #manager{
+        margin-top: 20%;
+    }
+    body{
+        background-image: url("../images/png/njdxbdl.png");
+        background-repeat: no-repeat;
+        background-position:center;
+        background-attachment:fixed;
+    }
+</style>
+<script type="text/javascript" src="../javascripts/vue.js"></script>
+<script type="text/javascript" src="../javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="../javascripts/ajaxOption.js"></script>
+<script>
+    //var host = 'http://localhost/';
+    $(function () {
+        app.role = localStorage.getItem('role');
+    });
+    var app = new Vue({
+        el: "#manager",
+        data : {
+            role : false
+        },
+        methods:{
+            ztjk:function () {
+                //location='run.html';
+                var data = {
+                    id : 0
+                };
+                ajaxOption(host + urls.runConfig, 'post',
+                    JSON.stringify(data),
+                    function (res) {
+                        if (res['success']) {
+                            localStorage.setItem("token", JSON.parse(res['data'])['token']);
+                            location = JSON.parse(res['data'])['location'];
+                        } else {
+                            alert(res['data']);
+                        }
+                    }, null,function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
+                    })
+            },
+            zthz:function () {
+                //location='config.html';
+                var data = {
+                    nep : 1
+                };
+                ajaxOption(host + urls.runConfig, 'post',
+                    JSON.stringify(data),
+                    function (res) {
+                        if (res['success']) {
+                            localStorage.setItem("token", JSON.parse(res['data'])['token']);
+                            location = JSON.parse(res['data'])['location'];
+                        } else {
+                            alert(res['data']);
+                        }
+                    }, null,function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
+                    })
+            }
+        }
+    })
+</script>
+</html>

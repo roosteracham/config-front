@@ -114,6 +114,10 @@
         var data = {
             types : [ projectOption.elements]
         };
+        $.ajaxSetup({
+            contentType : 'application/json; charset=utf-8',
+            Authorization : sessionStorage.getItem("token")
+        });
         ajaxOption(host + urls.getProjects,
             'post',
             JSON.stringify(data), function (res) {

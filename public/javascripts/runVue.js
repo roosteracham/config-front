@@ -16,7 +16,7 @@ $(function () {
     //newSVG();
 
     // 新建svg元素
-    svg = SVG("svgContainer").size("100%", "100%");
+    svg = SVG("svgContainer").size("100%", "100%").panZoom();
 
     // 为svg添加点击事件， 点击非图形元素时取消选中效果, 点击图形元素被选中
     svg.click(clickNonEleToClear);
@@ -82,7 +82,6 @@ function getSvg(uri) {
         index: svgIndex
     };
 
-    // ajax请求
     ajaxOption(host + uri, 'post',
         JSON.stringify(data), function (res) {
             if (res['success']) {
