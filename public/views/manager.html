@@ -11,6 +11,8 @@
                 v-on:click="ztjk">组态监控</button>
             <button type="button" class="btn btn-default btn-lg btn-block"
                     v-if="role" v-on:click="zthz">组态绘制</button>
+            <button type="button" class="btn btn-default btn-lg btn-block"
+                    v-if="role" v-on:click="qxgl">权限管理</button>
         </div>
     </div>
 </body>
@@ -31,9 +33,6 @@
 <script type="text/javascript" src="../javascripts/ajaxOption.js"></script>
 <script>
     //var host = 'http://localhost/';
-    $(function () {
-        app.role = localStorage.getItem('role');
-    });
     var app = new Vue({
         el: "#manager",
         data : {
@@ -53,6 +52,7 @@
                             location = JSON.parse(res['data'])['location'];
                         } else {
                             alert(res['data']);
+                            location = JSON.parse(res['data'])['location'];
                         }
                     }, null,function (xhr) {
                         xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
@@ -60,23 +60,43 @@
             },
             zthz:function () {
                 //location='config.html';
-                var data = {
-                    nep : 1
-                };
-                ajaxOption(host + urls.runConfig, 'post',
-                    JSON.stringify(data),
-                    function (res) {
-                        if (res['success']) {
-                            localStorage.setItem("token", JSON.parse(res['data'])['token']);
-                            location = JSON.parse(res['data'])['location'];
-                        } else {
-                            alert(res['data']);
-                        }
-                    }, null,function (xhr) {
-                        xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
-                    })
+
+                var role = app.role;
+                if (role === 'true') {
+
+                    var data = {
+                        nep : 1
+                    };
+                    ajaxOption(host + urls.runConfig, 'post',
+                        JSON.stringify(data),
+                        function (res) {
+                            if (res['success']) {
+                                localStorage.setItem("token", JSON.parse(res['data'])['token']);
+                                location = JSON.parse(res['data'])['location'];
+                            } else {
+                                alert(res['data']);
+                                location = JSON.parse(res['data'])['location'];
+                            }
+                        }, null,function (xhr) {
+                            xhr.setRequestHeader('Authorization', 'Basic ' + localStorage.getItem("token"));
+                        })
+                }
+            },
+            qxgl : function () {
+                if (app.role === 'true') {
+                  location = 'http://172.17.161.136:8888/zutai/dev' + urls.userManager + '/?id=' + localStorage.getItem('token');
+                }
             }
         }
-    })
+    });
+
+    $(function () {
+
+        var id = setTimeout(function () {
+            app.role = localStorage.getItem('role');
+        }, 500);
+
+        //clearTimeout(id)
+    });
 </script>
 </html>

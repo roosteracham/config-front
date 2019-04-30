@@ -18,6 +18,7 @@ function clickToggle(e){
     $(".menu_chioce").slideUp();
     e.parent().find('dd').slideToggle();
     e.parent().find('dd').addClass("menu_chioce");
+    //e.stopPropagation()
 }
 
 // 当前svg根元素

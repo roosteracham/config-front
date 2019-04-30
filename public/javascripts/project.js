@@ -956,7 +956,7 @@ function monitoring() {
         //var eles = SVG.select("[class^='.bindPoint_']");
 
         if (ws === null) {
-            var url = 'ws://172.21.18.212/zutai/dev/myHandler';
+            var url = 'ws://172.17.161.136/zutai/dev/myHandler';
             ws = createNewWS(url);
         }
 

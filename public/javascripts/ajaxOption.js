@@ -15,7 +15,7 @@ function ajaxOption(url, type, data, sucallback, errcallback, setHeader) {
 }
 
 // 后端主机名
-var host = 'http://172.21.18.212/zutai/dev';
+var host = 'http://172.17.161.136/zutai/dev';
 
 var urls = {
     // 保存图形
@@ -37,5 +37,7 @@ var urls = {
     // 登陆
     login : '/user/login',
     // runConfig
-    runConfig : '/project/configChose'
+    runConfig : '/project/configChose',
+    //quanxian
+    userManager : '/c1/a'
 };
