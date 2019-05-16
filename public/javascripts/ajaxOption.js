@@ -15,7 +15,8 @@ function ajaxOption(url, type, data, sucallback, errcallback, setHeader) {
 }
 
 // 后端主机名
-var host = 'http://172.17.161.136/zutai/dev';
+//var host = 'http://172.17.161.136/zutai/dev';
+var host = 'http://192.168.191.1/zutai/dev';
 
 var urls = {
     // 保存图形

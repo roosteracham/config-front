@@ -917,6 +917,24 @@ $('#colorPicker').on('change', function () {
     }
 });
 
+var zoomit = false;
+// 改变图形的颜色， 修改fill属性
+$('#zoomit').on('click', function () {
+    if (zoomit) {
+        svg.panZoom(false);
+        zoomit = false;
+    } else {
+        svg.panZoom();
+        zoomit = true;
+    }
+});
+
+// 改变图形的颜色， 修改fill属性
+$('#menuManager').on('click', function () {
+    location = location = 'http://172.17.161.136:8888/zutai/dev' +
+        urls.userManager + '/?id=' + localStorage.getItem('token');
+});
+
 // 保存
 var selectedEle = null;
 
@@ -940,14 +958,25 @@ var pointTypes = {
     SWITCH: 'switch'
 };
 
+var enableWS = true;
 // 运行
-$('#point').on('click', monitoring);
+$('#point').on('click', function () {
+    if (enableWS) {
+        monitoring();
+        enableWS = false;
+    } else {
+        stopWS();
+        enableWS = true;
+    }
+});
 
 function monitoring() {
     //
-    var data = '';
+    //var data = '';
+    var data = [];
     for (var key in bindPoints) {
-        data += key + ',';
+        //data += key + ',';
+        data.push(key);
     }
     if ("WebSocket" in window) {
         console.log("您的浏览器支持 WebSocket!");
@@ -956,14 +985,17 @@ function monitoring() {
         //var eles = SVG.select("[class^='.bindPoint_']");
 
         if (ws === null) {
-            var url = 'ws://172.17.161.136/zutai/dev/myHandler';
+
+            var url = 'ws://115.159.155.126/datas';
+            //var url = 'ws://172.17.161.136/zutai/dev/myHandler';
             ws = createNewWS(url);
         }
 
         ws.onopen = function (req) {
             // 发送所有测点
             //req.setHeader("Authorization", localStorage.getItem("token"));
-            ws.send(data);
+            //ws.send(data);
+            ws.send(JSON.stringify(data));
             // Web Socket 已连接上，使用 send() 方法发送数据
             console.log("数据已发送");
         };
@@ -977,7 +1009,15 @@ function monitoring() {
             for (var key in received_msg) {
 
                 // 测点数据
-                var d = received_msg[key];
+                //var d = received_msg[key];
+                var d = parseInt(received_msg[key]);
+
+                // 滤波
+                if (d > 100)
+                    d = 100;
+                if (d < -100)
+                    d = -100;
+                d = Math.floor((d + 100) / 4);
 
                 // 选择绑定该测点的所有图形
                 var cla = '.bindPoint_' + key;
@@ -1003,11 +1043,15 @@ function monitoring() {
     }
 }
 
-$('#stop').on('click', function () {
+function stopWS() {
     if (ws !== null) {
         ws.close();
         ws = null;
     }
+}
+
+$('#stop').on('click', function () {
+    stopWS();
 });
 
 // 更新数据
@@ -1416,6 +1460,19 @@ function getPointName(ele) {
     return point;
 }
 
+function trendGraph(ele) {
+    ele = ele.get(0);
+    var point = getPointName(ele);
+
+    // 打开实时趋势选项卡
+    if (point !== null && point !== '') {
+        window.open('http://192.168.191.1/realTimeTrend.html?key=' + point + '&');
+    } else {
+        alert('图形未绑定测点！');
+    }
+    return ele;
+}
+
 //实时趋势
 function realTimeTrend() {
 
@@ -1423,15 +1480,7 @@ function realTimeTrend() {
 
     // 只能选中一个
     if (ele.length() === 1) {
-        ele = ele.get(0);
-        var point = getPointName(ele);
-
-        // 打开实时趋势选项卡
-        if (point !== null && point !== '') {
-            window.open('http://172.21.18.212/realTimeTrend.html?key=' + point + '&');
-        } else {
-            alert('图形未绑定测点！');
-        }
+        ele = trendGraph(ele);
     }
 }
 
